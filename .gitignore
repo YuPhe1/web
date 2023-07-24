@@ -1,0 +1,9 @@
+.metadata
+Servers
+/*/bin
+/*/.settings
+/*/.project
+/*/.classpath
+/*/build/classes
+/*/src/main/webapp/META-INF
+/*/src/main/webapp/WEB-INF/lib
