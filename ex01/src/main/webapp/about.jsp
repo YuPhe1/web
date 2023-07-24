@@ -3,6 +3,6 @@
 
 <div class="row">
 	<div class="col">
-		<h1 class="text-center">상품등록</h1>
+		<h1 class="text-center">회사소개</h1>
 	</div>
 </div>

@@ -18,12 +18,14 @@ public class StudentController extends HttpServlet {
 		RequestDispatcher dis = null;
 		switch (request.getServletPath()) {
 		case "/stu/list":
-			dis = request.getRequestDispatcher("list.jsp");
+			request.setAttribute("pageName", "/stu/list.jsp");
 			break;
 		case "/stu/insert":
-			dis = request.getRequestDispatcher("insert.jsp");
+			request.setAttribute("pageName", "/stu/insert.jsp");
+			
 			break;
 		}
+		dis = request.getRequestDispatcher("/home.jsp");
 		dis.forward(request, response);
 	}
 	

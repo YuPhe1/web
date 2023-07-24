@@ -14,6 +14,7 @@ public class HomeComtroller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("pageName", "/about.jsp");
 		RequestDispatcher dis = request.getRequestDispatcher("/home.jsp");
 		dis.forward(request, response);
 	}
