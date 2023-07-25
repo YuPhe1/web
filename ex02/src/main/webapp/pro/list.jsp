@@ -15,7 +15,7 @@
 			<c:forEach items="${array}" var="vo">
 				<tr>
 					<td class="table-info">${vo.pcode}</td>
-					<td>${vo.pname}</td>
+					<td><a href="/pro/read?code=${vo.pcode}">${vo.pname}</a></td>
 					<td><fmt:formatNumber value="${vo.price}" pattern="#,###원" /></td>
 					<td><fmt:formatDate value="${vo.rdate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				</tr>
