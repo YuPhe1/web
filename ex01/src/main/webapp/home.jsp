@@ -32,8 +32,8 @@ a {
 <body>
 	<div class="container">
 		<div class="row">
-			<div class="col mt-5">
-				<div class="text-center">
+			<div class="col mt-2">
+				<div class="text-center mb-4">
 					<a href="/">회사소개</a> <a href="/pro/list">상품목록</a> <a
 						href="/stu/list">학생목록</a>
 				</div>

@@ -27,3 +27,5 @@ where pcode = 3;
 
 delete from products
 where pcode > 4;
+
+select * from products order by pcode desc;
