@@ -21,5 +21,31 @@
 				</tr>
 			</c:forEach>
 		</table>
+		<div class="text-center">
+			<button id="prev" class="btn btn-info">이전</button>
+			<span id="page" class="mx-2"></span>
+			<button id="next" class="btn btn-info">다음</button>
+		</div>
 	</div>
 </div>
+<script>
+	let page="${page}";
+	let last="${last}";
+	$("#page").html("<b>" +page+ " / " + last + "</b>");
+	
+	if(page==1) $("#prev").attr("disabled", true);
+	else $("#prev").attr("disabled", false);
+	
+	if(page==last) $("#next").attr("disabled", true);
+	else $("#next").attr("disabled", false);
+	
+	$("#prev").on("click", function(){
+		page--;
+		location.href="/pro/list?page=" + page;
+	});
+	
+	$("#next").on("click", function(){
+		page++;
+		location.href="/pro/list?page=" + page;
+	});
+</script>

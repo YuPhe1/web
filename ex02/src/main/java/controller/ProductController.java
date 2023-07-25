@@ -22,7 +22,11 @@ public class ProductController extends HttpServlet {
 		RequestDispatcher dis = request.getRequestDispatcher("/home.jsp");
 		switch (request.getServletPath()) {
 		case "/pro/list":
-			request.setAttribute("array", dao.list());
+			int page= request.getParameter("page") == null ? 1 :
+				Integer.parseInt(request.getParameter("page"));
+			request.setAttribute("page", page);
+			request.setAttribute("last",dao.last());
+			request.setAttribute("array", dao.list(page));
 			request.setAttribute("pageName", "/pro/list.jsp");
 			dis.forward(request, response);
 			break;

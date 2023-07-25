@@ -8,10 +8,12 @@ create table products(
     rdate datetime default now()
 );
 
+drop table products;
+
 desc products;
 
-insert into products(pname, price)
-values('냉장고', 3000000);
+insert into products(pcode, pname, price)
+values(100, '냉장고', 3000000);
 insert into products(pname, price)
 values('세탁기', 2500000);
 insert into products(pname, price)
@@ -22,10 +24,13 @@ select *, format(price, 0) fprice, date_format(rdate, '%Y-%m-%d %T') fdate from 
 insert into products(pname, price)
 select pname, price from products;
 
-update products set pname='비스코프 스타일러', price=1800000
-where pcode = 3;
+select count(*) from products;
+
+update products set pname='엘지전자 모니터', price=1000000
+where pcode = 103;
 
 delete from products
 where pcode > 4;
 
 select * from products order by pcode desc;
+select * from products order by pcode desc limit 0,5;

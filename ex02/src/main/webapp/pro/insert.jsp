@@ -41,4 +41,8 @@
 				frm.submit();
 		}
 	});
+	$(frm).on("submit", function(e){
+		e.preventDefault();
+		location.href = "/pro/list";
+	});
 </script>

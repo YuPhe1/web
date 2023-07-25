@@ -5,6 +5,21 @@ import java.sql.*;
 
 public class ProductDAO {
 	
+	// 전체상품수
+	public int last() {
+		int last = 0;
+		try {
+			String sql = "select count(*) c from products";
+			PreparedStatement ps = Database.CON.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				last = (rs.getInt("c") + 4) / 5;
+			}
+		} catch (Exception e) {
+			System.out.println("전체 상품 페이지 오류: " + e.toString());
+		}
+		return last;
+	}
 	//상품수정
 	public void update(ProductVO vo) {
 		try {
@@ -64,11 +79,12 @@ public class ProductDAO {
 	}
 	
 	// 상품목록
-	public List<ProductVO> list(){
+	public List<ProductVO> list(int page){
 		List<ProductVO> array = new ArrayList<ProductVO>();
 		try {
-			String sql = "select * from products order by pcode desc";
+			String sql = "select * from products order by pcode desc limit ?,5";
 			PreparedStatement ps = Database.CON.prepareStatement(sql);
+			ps.setInt(1, (page-1)*5);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				ProductVO vo = new ProductVO();

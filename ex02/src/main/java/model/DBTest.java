@@ -6,7 +6,7 @@ public class DBTest {
 		
 		ProductDAO dao = new ProductDAO();
 		
-		for(ProductVO vo : dao.list()) {
+		for(ProductVO vo : dao.list(5)) {
 			System.out.println(vo.toString());
 		}
 	}
