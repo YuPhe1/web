@@ -92,12 +92,11 @@
 			$("#div_local .chk:checked").each(function(){
 				let tr = $(this).parent().parent();
 				let data = JSON.parse(tr.attr("local"));
-				console.log(data);
+				// console.log(data);
 				$.ajax({
 					type:"post",
 					url:"/local/insert",
-					data:{lid:data.id, lname:data.place_name, laddress:data.address_name
-						,lphone:data.phone, lurl:data.place_url, x:data.x, y:data.y},
+					data: data,
 					success:function(){}
 				});
 			});

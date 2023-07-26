@@ -28,11 +28,11 @@ public class LocalController extends HttpServlet {
 		switch (req.getServletPath()) {
 		case "/local/insert":
 			LocalVO vo = new LocalVO();
-			vo.setLid(req.getParameter("lid"));
-			vo.setLname(req.getParameter("lname"));
-			vo.setLaddress(req.getParameter("laddress"));
-			vo.setLphone(req.getParameter("lphone"));
-			vo.setLurl(req.getParameter("lurl"));
+			vo.setLid(req.getParameter("id"));
+			vo.setLname(req.getParameter("place_name"));
+			vo.setLaddress(req.getParameter("address_name"));
+			vo.setLphone(req.getParameter("phone"));
+			vo.setLurl(req.getParameter("place_url"));
 			vo.setX(req.getParameter("x"));
 			vo.setY(req.getParameter("y"));
 //			System.out.println(vo.toString());
