@@ -25,7 +25,7 @@ insert into products(pname, price)
 select pname, price from products;
 
 select count(*) from products;
-
+select count(*) c from products;
 update products set pname='엘지전자 모니터', price=1000000
 where pcode = 103;
 
