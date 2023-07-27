@@ -47,7 +47,7 @@
 			success:function(data){
 				console.log(data);
 				
-				const temp = Handlebars.compile($("temp_list").html());
+				const temp = Handlebars.compile($("#temp_list").html());
 				const html = temp(data);
 				$("#book_list").html(html);
 			}
