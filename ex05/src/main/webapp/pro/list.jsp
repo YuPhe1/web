@@ -56,7 +56,11 @@
 	$("#div_pro").on("keydown", ".price", function(){
 		let price = $(this).val();
 		let td = $(this).parent();
-		td.find(".fprice").html(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
+		if(price.replace(/[0-9]/g, '')){
+			td.find(".fprice").html('<span style="color:red">숫자로 입력하세요</span>');
+		} else {
+			td.find(".fprice").html(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
+		}
 	})
 	
 	$("#div_pro").on("click", ".btn-info", function(){
