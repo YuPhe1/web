@@ -53,7 +53,7 @@
 	let query = "";
 	getList();
 	
-	$("#div_pro").on("keydown", ".price", function(){
+	$("#div_pro").on("keyup", ".price", function(){
 		let price = $(this).val();
 		let td = $(this).parent();
 		if(price.replace(/[0-9]/g, '')){
