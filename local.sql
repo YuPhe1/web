@@ -14,6 +14,10 @@ drop table local;
 
 desc local;
 
-select * from local;
+select count(*) from local;
 
-delete from local where id>0;
+delete from local where id>150;
+
+insert into local(lid,lname,laddress,lphone) select lid,lname,laddress,lphone from local;
+
+select count(*) c from local where lname like '%%' or laddress like '%%';

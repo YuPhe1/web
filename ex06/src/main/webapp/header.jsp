@@ -6,6 +6,7 @@
 		<div class="mt-3">
 			<a href="/">Home</a>
 			<a href="/pro/list">상품목록</a>
+			<a href="/local/list">지역목록</a>
 		</div>
 		<hr>
 	</div>
