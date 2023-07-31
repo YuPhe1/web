@@ -5,6 +5,33 @@ import java.sql.*;
 
 public class ProductDAO {
 
+	// 상품 삭제
+	public void delete(int pcode) {
+		try {
+			String sql = "delete from products where pcode = ?";
+			PreparedStatement ps = Database.CON.prepareStatement(sql);
+			ps.setInt(1, pcode);
+			ps.execute();
+		} catch (Exception e) {
+			System.out.println("상품삭제오류: " + e.toString());
+		}
+	}
+	
+	// 상품 등록
+	public void insert(ProductVO vo) {
+		try {
+			String sql = "insert into products(pname, price)"
+					+ " values(?, ?)";
+			PreparedStatement ps = Database.CON.prepareStatement(sql);
+			ps.setString(1, vo.getPname());
+			ps.setInt(2, vo.getPrice());
+			ps.execute();
+		} catch (Exception e) {
+			System.out.println("상품등록오류: " + e.toString());
+		}
+	}
+	
+	
 	// 상품 개수
 	public int total(String query) {
 		int cnt = 0;
