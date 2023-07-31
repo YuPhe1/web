@@ -17,7 +17,7 @@ import model.*;
 import java.util.*;
 import java.text.*;
 
-@WebServlet(value={"/pro/list","/pro/list.json", "/pro/total", "/pro/insert", "/pro/delete"})
+@WebServlet(value={"/pro/list","/pro/list.json", "/pro/total", "/pro/insert", "/pro/delete", "/pro/update"})
 public class ProductController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -66,9 +66,17 @@ public class ProductController extends HttpServlet {
 			dao.insert(vo);
 			break;
 		case "/pro/delete":
-			int pcode = Integer.parseInt(request.getParameter("code"));
+			int pcode = Integer.parseInt(request.getParameter("pcode"));
 			//System.out.println(pcode);
 			dao.delete(pcode);
+			break;
+		case "/pro/update":
+			vo = new ProductVO();
+			vo.setPcode(Integer.parseInt(request.getParameter("pcode")));
+			vo.setPname(request.getParameter("pname"));
+			vo.setPrice(Integer.parseInt(request.getParameter("price")));
+			// System.out.println(vo.toString());
+			dao.update(vo);
 			break;
 		}
 	}
