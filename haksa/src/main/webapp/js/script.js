@@ -2,6 +2,13 @@
  * 
  */
 
+	$(frm).on("submit", function(e){
+		e.preventDefault();
+		query = $(frm.query).val();
+		key = $(frm.key).val();
+		getTotal();
+	});
+	
  // pagination
 	$('#pagination').twbsPagination({
 		totalPages : 1, // 총 페이지 번호 수

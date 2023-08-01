@@ -54,11 +54,6 @@
 	let query = $(frm.query).val();
 	let key = $(frm.key).val();
 	let url = "stu";
-	$(frm).on("submit", function(e){
-		e.preventDefault();
-		query = $(frm.query).val();
-		key = $(frm.key).val();
-		getTotal();
-	});
+
 	getTotal();
 </script>
