@@ -43,7 +43,6 @@
 
 <script>
 
-	let qpage = 1;
 	let query = $(frm.query).val();
 	
 	//검색한경우
@@ -64,7 +63,6 @@
 	    next : '<i class="bi bi-caret-right"></i>',	// 다음 페이지 버튼에 쓰여있는 텍스트
 	    last : '<i class="bi bi-chevron-double-right"></i>',	// 페이지네이션 버튼중 마지막으로 가는 버튼에 쓰여있는 텍스트
 	    onPageClick: function (event, page) {
-	    	qpage = page;
 	    	getList(page);
 	    }
 	});

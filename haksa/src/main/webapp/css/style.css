@@ -1,0 +1,12 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Orbit&display=swap');
+
+* {
+	font-family: 'Orbit', sans-serif;
+}
+
+@media screen and (max-width: 720px){
+	#img_header {
+		display: none;
+	}
+}
