@@ -49,8 +49,6 @@
 </script>
 <script src="/js/script.js"></script>
 <script>
-	let query = $(frm.query).val();
-	let key = $(frm.key).val();
 	let url = "pro";
 	getTotal();
 </script>
