@@ -2,13 +2,10 @@
 <div class="row my-5">
 	<div class="col">
 		<h1 class="text-center mb-4">학생목록</h1>
-		<div class="row justify-content-end">
-			<div class="col">
-				<span>검색수: </span> <span id="total"></span>
-			</div>
+		<div class="row">
 			<form name="frm" class="col-6 col-md-4">
 				<div class="input-group mb-3">
-					<select name="key" class="form-select" aria-label="Default select example">
+					<select name="key" class="form-select">
 						<option value="scode">학번</option>
 						<option value="sname" selected>이름</option>
 						<option value="dept">학과</option>
@@ -26,7 +23,7 @@
 </div>
 
 <script id="temp_stu" type="text/x-handlebars-tempate">
-	<table class="table table-striped">
+	<table class="table">
 		<tr class="table-dark">
 			<td>학번</td>
 			<td>이름</td>
@@ -49,7 +46,7 @@
 	{{/each}}
 	</table>
 </script>
-<script src="/js/script.js"></script>
+<script src="/js/list.js"></script>
 <script>
 	let url = "stu";
 

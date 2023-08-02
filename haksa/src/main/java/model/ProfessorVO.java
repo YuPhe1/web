@@ -1,12 +1,10 @@
 package model;
 
-import java.util.Date;
-
 public class ProfessorVO {
 	private String pcode;
 	private String pname;
 	private String dept;
-	private Date hiredate;
+	private String hiredate;
 	private String title;
 	private int salary;
 	public String getPcode() {
@@ -27,10 +25,10 @@ public class ProfessorVO {
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-	public Date getHiredate() {
+	public String getHiredate() {
 		return hiredate;
 	}
-	public void setHiredate(Date hiredate) {
+	public void setHiredate(String hiredate) {
 		this.hiredate = hiredate;
 	}
 	public String getTitle() {

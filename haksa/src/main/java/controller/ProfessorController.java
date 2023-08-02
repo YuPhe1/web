@@ -17,7 +17,8 @@ import model.*;
 import java.util.*;
 import java.text.*;
 
-@WebServlet(value={"/pro/list", "/pro/list.json", "/pro/total"})
+
+@WebServlet(value={"/pro/list", "/pro/list.json", "/pro/total", "/pro/insert", "/pro/update"})
 public class ProfessorController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -46,7 +47,7 @@ public class ProfessorController extends HttpServlet {
 				obj.put("pname", vo.getPname());
 				obj.put("dept", vo.getDept());
 				obj.put("title", vo.getTitle());
-				obj.put("hiredate", sdf.format(vo.getHiredate()));
+				obj.put("hiredate", vo.getHiredate());
 				obj.put("salary", vo.getSalary());
 				obj.put("fsalary", df.format(vo.getSalary()));
 				jArray.add(obj);
@@ -57,12 +58,43 @@ public class ProfessorController extends HttpServlet {
 			query = request.getParameter("query") == null ? "" : request.getParameter("query");
 			key = request.getParameter("key");
 			int total = dao.total(query, key);
+			System.out.println(total);
 			out.print(total);
+			break;
+		case "/pro/update":
+			String pcode = request.getParameter("pcode");
+			request.setAttribute("vo", dao.read(pcode));
+			request.setAttribute("pageName", "/pro/update.jsp");
+			dis.forward(request, response);
+			break;
 		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		request.setCharacterEncoding("UTF-8");
+		switch (request.getServletPath()) {
+		case "/pro/insert":
+			ProfessorVO vo = new ProfessorVO();
+			vo.setPname(request.getParameter("pname"));
+			vo.setSalary(request.getParameter("salary") == null ? 0 : Integer.parseInt(request.getParameter("salary")));
+			vo.setDept(request.getParameter("dept"));
+			vo.setTitle(request.getParameter("title"));
+			vo.setHiredate(request.getParameter("hiredate"));
+			dao.insert(vo);
+			break;
+		case "/pro/update":
+			vo = new ProfessorVO();
+			vo.setPcode(request.getParameter("pcode"));
+			vo.setPname(request.getParameter("pname"));
+			vo.setSalary(request.getParameter("salary") == null ? 0 : Integer.parseInt(request.getParameter("salary")));
+			vo.setDept(request.getParameter("dept"));
+			vo.setTitle(request.getParameter("title"));
+			vo.setHiredate(request.getParameter("hiredate"));
+			System.out.println(vo.toString());
+			dao.update(vo);
+			response.sendRedirect("/pro/list");
+			break;
+		}
 	}
 
 }

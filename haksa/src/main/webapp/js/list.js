@@ -44,15 +44,14 @@ function getList(page) {
 	});
 }
 
-// 전체 교수 수
+// 전체 페이지 수
 function getTotal() {
 	$.ajax({
 		type: "get",
 		url: "/" + url + "/total",
 		data: { query: query, key: key },
 		success: function(data) {
-			// console.log(data);
-			$("#total").html(data);
+			console.log(data);
 			if (data != 0) {
 				const totalPages = Math.ceil(data / 5);
 				$("#pagination").show();

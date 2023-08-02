@@ -119,3 +119,13 @@ select *
 from view_stu
 where pname = '이병렬';
 
+create view view_cou as
+select c.*, pname
+from courses c, professors p
+where c.instructor = p.pcode;
+
+select *
+from view_cou;
+
+insert into professors(pcode, pname, dept, title, salary, hiredate)
+values(select max(pcode)+1 from professors, '홍길동', '컴정', '정교수', 0, '2023-08-02');

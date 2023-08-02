@@ -2,9 +2,74 @@ package model;
 
 import java.util.*;
 import java.sql.*;
+import java.text.*;
 
 public class ProfessorDAO {
 
+	public void update(ProfessorVO vo) {
+		try {
+			String sql = "update professors set pname=?,dept=?,title=?,salary=?,hiredate=?"
+					+ " where pcode=?";
+			PreparedStatement ps =  Database.CON.prepareStatement(sql);
+			ps.setString(6, vo.getPcode());
+			ps.setString(1, vo.getPname());
+			ps.setString(2, vo.getDept());
+			ps.setString(3, vo.getTitle());
+			ps.setInt(4, vo.getSalary());
+			ps.setString(5, vo.getHiredate());
+			ps.execute();
+		} catch (Exception e) {
+			System.out.println("교수 수정: " + e.toString());
+		}
+	}
+	
+	public ProfessorVO read(String pcode) {
+		ProfessorVO vo = new ProfessorVO();
+		try {
+			String sql = "select * from professors"
+					+ " where pcode like ?";
+			PreparedStatement ps = Database.CON.prepareStatement(sql);
+			ps.setString(1, pcode);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				vo.setPcode(rs.getString("pcode"));
+				vo.setPname(rs.getString("pname"));
+				vo.setDept(rs.getString("dept"));
+				vo.setHiredate(rs.getString("hiredate"));
+				vo.setTitle(rs.getString("title"));
+				vo.setSalary(rs.getInt("salary"));
+			}
+		} catch (Exception e) {
+			System.out.println("교수 정보 오류: " + e.toString());
+		}
+		return vo;
+	}
+	
+	// 교수등록
+	public void insert(ProfessorVO vo) {
+		try {
+			int ncode = 0;
+			String sql = "select max(pcode)+1 ncode from professors";
+			PreparedStatement ps = Database.CON.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				ncode = rs.getInt("ncode");
+			}
+			sql = "insert into professors(pcode, pname, dept, title, salary, hiredate)"
+					+ " values(?, ?, ?, ?, ?, ?)";
+			ps =  Database.CON.prepareStatement(sql);
+			ps.setInt(1, ncode);
+			ps.setString(2, vo.getPname());
+			ps.setString(3, vo.getDept());
+			ps.setString(4, vo.getTitle());
+			ps.setInt(5, vo.getSalary());
+			ps.setString(6, vo.getHiredate());
+			ps.execute();
+		} catch (Exception e) {
+			System.out.println("교수 등록: " + e.toString());
+		}
+	}
+	
 	public int total(String query, String key) {
 		int total = 0;
 		try {
@@ -38,7 +103,7 @@ public class ProfessorDAO {
 				vo.setPcode(rs.getString("pcode"));
 				vo.setPname(rs.getString("pname"));
 				vo.setDept(rs.getString("dept"));
-				vo.setHiredate(rs.getDate("hiredate"));
+				vo.setHiredate(rs.getString("hiredate"));
 				vo.setTitle(rs.getString("title"));
 				vo.setSalary(rs.getInt("salary"));
 				array.add(vo);
