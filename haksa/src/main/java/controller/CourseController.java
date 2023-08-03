@@ -82,7 +82,7 @@ public class CourseController extends HttpServlet {
 			vo.setInstructor(request.getParameter("instructor"));
 			vo.setCapacity(Integer.parseInt(request.getParameter("capacity")));
 			vo.setPersons(Integer.parseInt(request.getParameter("persons")));
-			System.out.println(vo.toString());
+			// System.out.println(vo.toString());
 			coursDAO.update(vo);
 			response.sendRedirect("/cou/list");
 			break;
