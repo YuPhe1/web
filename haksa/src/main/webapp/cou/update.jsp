@@ -3,8 +3,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="row my-5">
 	<div class="col">
-		<form name="frm_update" method="post" action="/cou/update">
-			<h1 class="text-center mb-5">강좌수정</h1>
+		<h1 class="text-center mb-5">강좌수정</h1>
+		<form name="frm_update" class="card p-3" method="post" action="/cou/update">
 			<div class="input-group mb-3">
 				<span class="input-group-text">강좌명</span>
 				<input name="lcode" class="form-control" value="${vo.lcode}" readonly>
@@ -63,4 +63,9 @@
 	$(frm_update).on("reset", function(e){
 		location.href ="/cou/list";
 	});
+	
+	// 숫자인 경우에만 입력
+	function isNumber(item){
+		item.value = item.value.replace(/[^0-9]/g, '');
+	};
 </script>
