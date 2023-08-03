@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<style>
+	.pro {
+		cursor: pointer;
+	}
+	.pro:hover {
+		background: lightgray;
+		color: green;
+	}
+</style>
 <div class="row my-5">
 	<div class="col">
 		<h1 class="text-center mb-4">교수목록</h1>
@@ -52,7 +61,7 @@
 			<td class="text-end">급여</td>
 		</tr>
 	{{#each .}}
-		<tr class="pro" pcode="{{pcode}}" style="cursor: pointer">
+		<tr class="pro" pcode="{{pcode}}">
 			<td>{{pcode}}</td>
 			<td><a href="/pro/update?pcode={{pcode}}">{{pname}}</a></td>
 			<td>{{dept}}</td>
@@ -68,16 +77,11 @@
 	let url = "pro";
 	getTotal();
 
-	/*$("#div_pro").on("click", ".pro", function(){
+	$("#div_pro").on("click", ".pro", function(){
 		const pcode= $(this).attr("pcode");
 		location.href="/pro/update?pcode=" + pcode;
 	});
 	
-	$("#div_pro").on("mouseover", ".pro", function () {
-        $(this).addClass('changeBackgroundColor');
-    }).on("mouseout", ".pro", function () {
-        $(this).removeClass('changeBackgroundColor');
-    });*/
 	
 	$("#btn_insert").on("click", function() {
 		$("#modal-insert").modal("show");
