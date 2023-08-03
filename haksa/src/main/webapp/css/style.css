@@ -10,8 +10,3 @@
 		display: none;
 	}
 }
-
-.changeBackgroundColor {
-	background-color: lightgray;
-	cursor: pointer;
-}

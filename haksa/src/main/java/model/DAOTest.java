@@ -6,9 +6,9 @@ public class DAOTest {
 
 	public static void main(String[] args) {
 		
-		ProfessorDAO dao = new ProfessorDAO();
+//		ProfessorDAO dao = new ProfessorDAO();
 
-		System.out.println(dao.read("221").toString());
+//		System.out.println(dao.read("221").toString());
 		
 //		ProfessorVO vo = new ProfessorVO();
 //		vo.setPname("이몽룡");
@@ -33,7 +33,8 @@ public class DAOTest {
 //		
 //		System.out.println(dao.total("4", "year"));
 		
-//		CourseDAO dao = new CourseDAO();
+		CourseDAO dao = new CourseDAO();
+		System.out.println(dao.getCode());
 //		for(CourseVO vo : dao.list(1, "이병렬", "pname")) {
 //			System.out.println(vo.toString());
 //		}

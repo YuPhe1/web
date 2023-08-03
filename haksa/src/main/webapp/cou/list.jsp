@@ -1,4 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<style>
+	.cou {
+		cursor: pointer;
+	}
+	.cou:hover {
+		background: lightgray;
+		color: green;
+	}
+</style>
 <div class="row my-5">
 	<div class="col">
 		<h1 class="text-center mb-4">강좌목록</h1>
@@ -50,7 +59,7 @@
 		</tr>
 	{{#each .}}
 		<tr class="cou" lcode="{{lcode}}">
-			<td>{{lcode}}</td>
+			<td class="lcode">{{lcode}}</td>
 			<td>{{lname}}</td>
 			<td class="text-center">{{hours}}</td>
 			<td class="text-center">{{room}}</td>
@@ -66,16 +75,13 @@
 	let url = "cou";
 	getTotal();
 	
-	/*$("#div_cou").on("click", ".cou", function(){
+	$("#div_cou").on("click", ".cou", function(){
 		const lcode= $(this).attr("lcode");
+		// const lcode = $(this).find(".lcode").text();
 		location.href="/cou/update?lcode=" + lcode;
-	});*/
+	});
 	
-	$("#div_cou").on("mouseover", ".cou", function () {
-        $(this).addClass('changeBackgroundColor');
-    }).on("mouseout", ".cou", function () {
-        $(this).removeClass('changeBackgroundColor');
-    });
+	
 	$("#btn-insert").on("click", function(){
 		$("#modal-insert").modal("show");
 	});

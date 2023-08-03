@@ -1,4 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<style>
+	.stu {
+		cursor: pointer;
+	}
+	.stu:hover {
+		background: lightgray;
+		color: green;
+	}
+</style>
 <div class="row my-5">
 	<div class="col">
 		<h1 class="text-center mb-4">학생목록</h1>
@@ -72,12 +81,6 @@
 		const scode= $(this).attr("scode");
 		location.href="/stu/update?scode=" + scode;
 	});
-	
-	$("#div_stu").on("mouseover", ".stu", function () {
-        $(this).addClass('changeBackgroundColor');
-    }).on("mouseout", ".stu", function () {
-        $(this).removeClass('changeBackgroundColor');
-    });
 	 
 	$("#btn-insert").on("click", function(){
 		$("#modal-insert").modal("show");

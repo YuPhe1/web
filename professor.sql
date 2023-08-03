@@ -127,5 +127,18 @@ where c.instructor = p.pcode;
 select *
 from view_cou;
 
-insert into professors(pcode, pname, dept, title, salary, hiredate)
-values(select max(pcode)+1 from professors, '홍길동', '컴정', '정교수', 0, '2023-08-02');
+delete from professors
+where pcode = '513';
+
+select *
+from professors;
+
+select *
+from students;
+
+select max(scode)+1 ncode from students;
+
+select max(lcode) ncode from courses;
+
+insert into students(scode, sname, dept, year, birthday, advisor)
+values('96414405', '김태양', '컴정', 3, '2000-01-01', '512');

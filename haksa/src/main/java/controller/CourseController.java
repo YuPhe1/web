@@ -18,7 +18,7 @@ import com.google.gson.Gson;
 import model.*;
 import java.util.*;
 
-@WebServlet(value={"/cou/list", "/cou/list.json", "/cou/total", "/cou/insert"})
+@WebServlet(value={"/cou/list", "/cou/list.json", "/cou/total", "/cou/insert", "/cou/update"})
 public class CourseController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -47,6 +47,13 @@ public class CourseController extends HttpServlet {
 			key = request.getParameter("key");
 			out.print(coursDAO.total(query, key));
 			break;
+		case "/cou/update":
+			String lcode = request.getParameter("lcode");
+			request.setAttribute("vo", coursDAO.read(lcode));
+			request.setAttribute("parray", professorDAO.all());
+			request.setAttribute("pageName", "/cou/update.jsp");
+			dis.forward(request, response);
+			break;
 		}
 	}
 
@@ -62,7 +69,21 @@ public class CourseController extends HttpServlet {
 			vo.setInstructor(request.getParameter("instructor"));
 			vo.setCapacity(Integer.parseInt(request.getParameter("capacity")));
 			vo.setPersons(Integer.parseInt(request.getParameter("persons")));
+			//System.out.println(vo.toString());
+			coursDAO.insert(vo);
+			response.sendRedirect("/cou/list");
+			break;
+		case "/cou/update":
+			vo = new CourseVO();
+			vo.setLcode(request.getParameter("lcode"));
+			vo.setLname(request.getParameter("lname"));
+			vo.setHours(Integer.parseInt(request.getParameter("hours")));
+			vo.setRoom(request.getParameter("room"));
+			vo.setInstructor(request.getParameter("instructor"));
+			vo.setCapacity(Integer.parseInt(request.getParameter("capacity")));
+			vo.setPersons(Integer.parseInt(request.getParameter("persons")));
 			System.out.println(vo.toString());
+			coursDAO.update(vo);
 			response.sendRedirect("/cou/list");
 			break;
 		}
