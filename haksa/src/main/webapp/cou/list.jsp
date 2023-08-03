@@ -15,12 +15,28 @@
 					<button class="btn btn-primary">검색</button>
 				</div>
 			</form>
+			<div class="col text-end">
+				<button class="btn btn-primary" id="btn-insert">강좌등록</button>
+			</div>	
 		</div>
 		<div id="div_cou"></div>
 		<div id="pagination" class="pagination justify-content-center"></div>
 	</div>
 </div>
-
+<!-- 강좌등록 Modal -->
+<div class="modal fade" id="modal-insert" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="staticBackdropLabel">강좌등록</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<jsp:include page="/cou/insert.jsp"/>
+		    </div>
+		 </div>
+	</div>
+</div>
 <script id="temp_cou" type="text/x-handlebars-tempate">
 	<table class="table">
 		<tr class="table-dark">
@@ -33,7 +49,7 @@
 			<td class="text-center">수강인원/최대인원</td>
 		</tr>
 	{{#each .}}
-		<tr>
+		<tr class="cou" lcode="{{lcode}}">
 			<td>{{lcode}}</td>
 			<td>{{lname}}</td>
 			<td class="text-center">{{hours}}</td>
@@ -49,4 +65,18 @@
 <script>
 	let url = "cou";
 	getTotal();
+	
+	/*$("#div_cou").on("click", ".cou", function(){
+		const lcode= $(this).attr("lcode");
+		location.href="/cou/update?lcode=" + lcode;
+	});*/
+	
+	$("#div_cou").on("mouseover", ".cou", function () {
+        $(this).addClass('changeBackgroundColor');
+    }).on("mouseout", ".cou", function () {
+        $(this).removeClass('changeBackgroundColor');
+    });
+	$("#btn-insert").on("click", function(){
+		$("#modal-insert").modal("show");
+	});
 </script>

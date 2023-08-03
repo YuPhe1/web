@@ -5,6 +5,32 @@ import java.util.*;
 
 public class CourseDAO {
 
+	// 강좌 등록
+	public void insert(CourseVO vo) {
+		try {
+			String ncode="";
+			String sql = "";
+			PreparedStatement ps = Database.CON.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				ncode = rs.getString("ncode");
+			}
+			sql = "insert into courses(lcode, lname, hours, room, instructor, capacity, persons)"
+					+ " values(?, ?, ?, ?, ?, ?, ?)";
+			ps = Database.CON.prepareStatement(sql);
+			ps.setString(1, ncode);
+			ps.setString(2, vo.getLname());
+			ps.setInt(3, vo.getHours());
+			ps.setString(4, vo.getRoom());
+			ps.setString(5, vo.getInstructor());
+			ps.setInt(6, vo.getCapacity());
+			ps.setInt(7, vo.getPersons());
+			ps.execute();
+		} catch (Exception e) {
+			System.out.println("강좌 등록 오류: " + e.toString());
+		}
+	}
+	
 	// 검색수
 	public int total(String query, String key) {
 		int total = 0;

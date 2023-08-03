@@ -16,12 +16,28 @@
 					<button class="btn btn-primary">검색</button>
 				</div>
 			</form>
+			<div class="col text-end">
+				<button class="btn btn-primary" id="btn-insert">학생등록</button>
+			</div>
 		</div>
 		<div id="div_stu"></div>
 		<div id="pagination" class="pagination justify-content-center"></div>
 	</div>
 </div>
-
+<!-- 학생등록 Modal -->
+<div class="modal fade" id="modal-insert" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="staticBackdropLabel">학생등록</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<jsp:include page="/stu/insert.jsp"/>
+		    </div>
+		 </div>
+	</div>
+</div>
 <script id="temp_stu" type="text/x-handlebars-tempate">
 	<table class="table">
 		<tr class="table-dark">
@@ -34,7 +50,7 @@
 			<td>전담교수</td>
 		</tr>
 	{{#each .}}
-		<tr>
+		<tr class="stu" scode={{scode}}>
 			<td>{{scode}}</td>
 			<td>{{sname}}</td>
 			<td>{{dept}}</td>
@@ -51,4 +67,19 @@
 	let url = "stu";
 
 	getTotal();
+	
+	$("#div_stu").on("click", ".stu", function(){
+		const scode= $(this).attr("scode");
+		location.href="/stu/update?scode=" + scode;
+	});
+	
+	$("#div_stu").on("mouseover", ".stu", function () {
+        $(this).addClass('changeBackgroundColor');
+    }).on("mouseout", ".stu", function () {
+        $(this).removeClass('changeBackgroundColor');
+    });
+	 
+	$("#btn-insert").on("click", function(){
+		$("#modal-insert").modal("show");
+	})
 </script>

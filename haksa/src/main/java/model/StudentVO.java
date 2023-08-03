@@ -1,14 +1,12 @@
 package model;
 
-import java.util.Date;
-
 public class StudentVO extends ProfessorVO {
 
 	private String scode;
 	private String sname;
 	private String dept;
 	private int year;
-	private Date birthday;
+	private String birthday;
 	private String advisor;
 	public String getScode() {
 		return scode;
@@ -34,10 +32,10 @@ public class StudentVO extends ProfessorVO {
 	public void setYear(int year) {
 		this.year = year;
 	}
-	public Date getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(Date birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 	public String getAdvisor() {

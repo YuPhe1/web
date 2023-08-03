@@ -58,7 +58,6 @@ public class ProfessorController extends HttpServlet {
 			query = request.getParameter("query") == null ? "" : request.getParameter("query");
 			key = request.getParameter("key");
 			int total = dao.total(query, key);
-			System.out.println(total);
 			out.print(total);
 			break;
 		case "/pro/update":

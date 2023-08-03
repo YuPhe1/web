@@ -54,12 +54,13 @@ function getTotal() {
 			console.log(data);
 			if (data != 0) {
 				const totalPages = Math.ceil(data / 5);
-				$("#pagination").show();
 				$("#pagination").twbsPagination("changeTotalPages",
 					totalPages, 1);
 			} else {
-				$("#div_" + url).html("<h2 class='text-center'>검색 결과가 없습니다.</h2>");
-				$("#pagination").hide();
+				alert("검색내용이 없습니다!");
+				$(frm.query).val("");
+				query="";
+				getTotal();
 			}
 		}
 	});

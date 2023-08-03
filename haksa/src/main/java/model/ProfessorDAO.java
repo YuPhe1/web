@@ -22,7 +22,7 @@ public class ProfessorDAO {
 			System.out.println("교수 수정: " + e.toString());
 		}
 	}
-	
+
 	public ProfessorVO read(String pcode) {
 		ProfessorVO vo = new ProfessorVO();
 		try {
@@ -44,7 +44,7 @@ public class ProfessorDAO {
 		}
 		return vo;
 	}
-	
+
 	// 교수등록
 	public void insert(ProfessorVO vo) {
 		try {
@@ -69,7 +69,7 @@ public class ProfessorDAO {
 			System.out.println("교수 등록: " + e.toString());
 		}
 	}
-	
+
 	public int total(String query, String key) {
 		int total = 0;
 		try {
@@ -86,7 +86,7 @@ public class ProfessorDAO {
 		}
 		return total;
 	}
-	
+
 	// 교수목록
 	public List<ProfessorVO> list(int page, String query, String key){
 		List<ProfessorVO> array = new ArrayList<ProfessorVO>();
@@ -110,6 +110,29 @@ public class ProfessorDAO {
 			}
 		} catch (Exception e) {
 			System.out.println("교수 목록 오류: " + e.toString());
+		}
+		return array;
+	}
+
+	// 모든교수목록
+	public List<ProfessorVO> all(){
+		List<ProfessorVO> array = new ArrayList<ProfessorVO>();
+		try {
+			String sql = "select * from professors order by pname";
+			PreparedStatement ps = Database.CON.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				ProfessorVO vo = new ProfessorVO();
+				vo.setPcode(rs.getString("pcode"));
+				vo.setPname(rs.getString("pname"));
+				vo.setDept(rs.getString("dept"));
+				vo.setHiredate(rs.getString("hiredate"));
+				vo.setTitle(rs.getString("title"));
+				vo.setSalary(rs.getInt("salary"));
+				array.add(vo);
+			}
+		} catch (Exception e) {
+			System.out.println("모든 교수 목록 오류: " + e.toString());
 		}
 		return array;
 	}

@@ -24,7 +24,7 @@
 	</div>
 </div>
 <!-- 교수등록Modal -->
-<div class="modal fade" id="insert" data-bs-backdrop="static"
+<div class="modal fade" id="modal-insert" data-bs-backdrop="static"
 	data-bs-keyboard="false" tabindex="-1"
 	aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -52,7 +52,7 @@
 			<td class="text-end">급여</td>
 		</tr>
 	{{#each .}}
-		<tr>
+		<tr class="pro" pcode="{{pcode}}" style="cursor: pointer">
 			<td>{{pcode}}</td>
 			<td><a href="/pro/update?pcode={{pcode}}">{{pname}}</a></td>
 			<td>{{dept}}</td>
@@ -68,8 +68,19 @@
 	let url = "pro";
 	getTotal();
 
+	/*$("#div_pro").on("click", ".pro", function(){
+		const pcode= $(this).attr("pcode");
+		location.href="/pro/update?pcode=" + pcode;
+	});
+	
+	$("#div_pro").on("mouseover", ".pro", function () {
+        $(this).addClass('changeBackgroundColor');
+    }).on("mouseout", ".pro", function () {
+        $(this).removeClass('changeBackgroundColor');
+    });*/
+	
 	$("#btn_insert").on("click", function() {
-		$("#insert").modal("show");
+		$("#modal-insert").modal("show");
 	})
 	
 </script>

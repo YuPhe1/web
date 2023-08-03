@@ -15,19 +15,13 @@
 		</select>
 	</div>
 	<div class="input-group mb-2">
-		<span class="input-group-text">교수직급</span>&nbsp;
-		<div class="form-check form-check-inline">
-			<input class="form-check-input" type="radio" name="title" value="정교수">
-			<label class="form-check-label">정교수</label>
-		</div>
-		<div class="form-check form-check-inline">
-			<input class="form-check-input" type="radio" name="title" value="부교수" checked>
-			<label class="form-check-label">부교수</label>
-		</div>
-		<div class="form-check form-check-inline">
-			<input class="form-check-input" type="radio" name="title" value="조교수">
-			<label class="form-check-label">조교수</label>
-		</div>
+		<span class="input-group-text">교수직급</span>
+			<input class="ms-2" type="radio" name="title" value="정교수">
+			<span class="p-2">정교수</span>
+			<input class="ms-2" type="radio" name="title" value="부교수" checked>
+			<span class="p-2">부교수</span>
+			<input class="ms-2" type="radio" name="title" value="조교수">
+			<span class="p-2">조교수</span>
 	</div>
 	<div class="input-group mb-2">
 		<span class="input-group-text">교수급여</span>
@@ -35,9 +29,9 @@
 	</div>
 	<div class="input-group mb-2">
 		<span class="input-group-text">임용일자</span>
-		<input name="hiredate" class="form-control" type="date">
+		<input name="hiredate" class="form-control" type="date" value="2000-01-01">
 	</div>
-	<div class="text-center mt-5">
+	<div class="text-center mt-3">
 		<input type="submit" value="교수등록" class="btn btn-primary">
 		<input type="reset" value="등록취소" class="btn btn-secondary">
 	</div>
@@ -66,7 +60,7 @@
 					success:function(){
 						alert("등록완료!");
 						getTotal();
-						$("#insert").modal("hide");						
+						$("#modal-insert").modal("hide");						
 					}
 				});
 			}
@@ -74,6 +68,6 @@
 	});
 	
 	$(frm_insert).on("reset", function(){
-		$("#insert").modal("hide");
+		$("#modal-insert").modal("hide");
 	});
 </script>

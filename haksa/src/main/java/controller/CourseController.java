@@ -18,11 +18,12 @@ import com.google.gson.Gson;
 import model.*;
 import java.util.*;
 
-@WebServlet(value={"/cou/list", "/cou/list.json", "/cou/total"})
+@WebServlet(value={"/cou/list", "/cou/list.json", "/cou/total", "/cou/insert"})
 public class CourseController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
-	CourseDAO dao = new CourseDAO();
+	CourseDAO coursDAO = new CourseDAO();
+	ProfessorDAO professorDAO = new ProfessorDAO();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -30,6 +31,7 @@ public class CourseController extends HttpServlet {
 		RequestDispatcher dis = request.getRequestDispatcher("/home.jsp");
 		switch(request.getServletPath()) {
 		case "/cou/list":
+			request.setAttribute("parray", professorDAO.all());
 			request.setAttribute("pageName", "/cou/list.jsp");
 			dis.forward(request, response);
 			break;
@@ -38,17 +40,32 @@ public class CourseController extends HttpServlet {
 			String query = request.getParameter("query") == null ? "" : request.getParameter("query");
 			String key = request.getParameter("key");
 			Gson gson = new Gson();
-			out.print(gson.toJson(dao.list(page, query, key)));
+			out.print(gson.toJson(coursDAO.list(page, query, key)));
 			break;
 		case "/cou/total":
 			query = request.getParameter("query") == null ? "" : request.getParameter("query");
 			key = request.getParameter("key");
-			out.print(dao.total(query, key));
+			out.print(coursDAO.total(query, key));
+			break;
 		}
 	}
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		switch (request.getServletPath()) {
+		case "/cou/insert":
+			CourseVO vo = new CourseVO();
+			vo.setLname(request.getParameter("lname"));
+			vo.setHours(Integer.parseInt(request.getParameter("hours")));
+			vo.setRoom(request.getParameter("room"));
+			vo.setInstructor(request.getParameter("instructor"));
+			vo.setCapacity(Integer.parseInt(request.getParameter("capacity")));
+			vo.setPersons(Integer.parseInt(request.getParameter("persons")));
+			System.out.println(vo.toString());
+			response.sendRedirect("/cou/list");
+			break;
+		}
 		
 	}
 
