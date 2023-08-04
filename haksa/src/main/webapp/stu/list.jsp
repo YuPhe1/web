@@ -57,6 +57,7 @@
 			<td>생일</td>
 			<td>전담교수번호</td>
 			<td>전담교수</td>
+			<td class="text-center">수강목록</td>
 		</tr>
 	{{#each .}}
 		<tr class="stu" scode={{scode}}>
@@ -67,6 +68,7 @@
 			<td>{{birthday}}</td>
 			<td>{{advisor}}</td>
 			<td>{{pname}}</td>
+			<td class="text-center"><button class="btn btn-primary btn-sm">수강목록</button></td>
 		</tr>
 	{{/each}}
 	</table>
@@ -77,12 +79,19 @@
 
 	getTotal();
 	
-	$("#div_stu").on("click", ".stu", function(){
-		const scode= $(this).attr("scode");
+	$("#div_stu").on("click", ".stu td:not(:last-child)", function(){
+		const scode= $(this).parent().attr("scode");
 		location.href="/stu/update?scode=" + scode;
 	});
 	 
 	$("#btn-insert").on("click", function(){
 		$("#modal-insert").modal("show");
 	})
+	
+	$("#div_stu").on("click", ".btn-primary", function(){
+		const row = $(this).parent().parent();
+		const scode= $(row).attr("scode");
+		console.log(scode);
+		location.href="/stu/enroll?scode=" + scode;
+	});
 </script>

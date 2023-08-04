@@ -4,7 +4,70 @@ import java.sql.*;
 import java.util.*;
 
 public class CourseDAO {
-
+	
+	// 점수수정
+	public void update(GradeVO vo) {
+		try {
+			String sql = "update enrollments set grade=?"
+					+ " where scode=? and lcode=?";
+			PreparedStatement ps = Database.CON.prepareStatement(sql);
+			ps.setInt(1, vo.getGrade());
+			ps.setString(2, vo.getScode());
+			ps.setString(3, vo.getLcode());
+			ps.execute();
+		} catch (Exception e) {
+			System.out.println("성적 수정 오류: " + e.toString());
+		}
+	}
+	
+	// 성적목록
+	public ArrayList<GradeVO> list(String lcode){
+		ArrayList<GradeVO> array = new ArrayList<GradeVO>();
+		try {
+			String sql = "select * from view_enroll_stu where lcode=?  order by scode";
+			PreparedStatement ps = Database.CON.prepareStatement(sql);
+			ps.setString(1, lcode);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				GradeVO vo = new GradeVO();
+				vo.setLcode(rs.getString("lcode"));
+				vo.setScode(rs.getString("scode"));
+				vo.setEdate(rs.getString("edate"));
+				vo.setGrade(rs.getInt("grade"));
+				vo.setSname(rs.getString("sname"));
+				vo.setDept(rs.getString("dept"));
+				array.add(vo);
+			}
+		} catch (Exception e) {
+			System.out.println("성적목록 오류: " + e.toString());
+		}
+		return array;
+	}
+	// 전체 강좌목록
+	public List<CourseVO> all(){
+		List<CourseVO> array = new ArrayList<CourseVO>();
+		try {
+			String sql = "select * from view_cou order by lname";
+			PreparedStatement ps = Database.CON.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				CourseVO vo = new CourseVO();
+				vo.setLcode(rs.getString("lcode"));
+				vo.setLname(rs.getString("lname"));
+				vo.setHours(rs.getInt("hours"));
+				vo.setRoom(rs.getString("room"));
+				vo.setInstructor(rs.getString("instructor"));
+				vo.setCapacity(rs.getInt("capacity"));
+				vo.setPersons(rs.getInt("persons"));
+				vo.setPname(rs.getString("pname"));
+				array.add(vo);
+			}
+		} catch (Exception e) {
+			System.out.println("전체 강좌 목록 오류: " + e.toString());
+		}
+		return array;
+	}
+	
 	// 강좌 수정
 	public void update(CourseVO vo) {
 		try {

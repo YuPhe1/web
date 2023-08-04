@@ -5,6 +5,66 @@ import java.sql.*;
 
 public class StudentDAO {
 
+	// 수강취소
+	public void delete(String scode, String lcode) {
+		
+		try {
+			String sql = "call del_enroll(?, ?)";
+			CallableStatement cs = Database.CON.prepareCall(sql);
+			cs.setString(1, scode);
+			cs.setString(2, lcode);
+			cs.execute();
+		} catch (Exception e) {
+			System.out.println("수강신청 취소 오류:" + e.toString());
+		}
+		
+	}
+	
+	// 수강신청등록
+	public int insert(String scode, String lcode) {
+		int count = -1;
+		try {
+			String sql = "call add_enroll(?, ?, ?)";
+			CallableStatement cs = Database.CON.prepareCall(sql);
+			cs.setString(1, scode);
+			cs.setString(2, lcode);
+			cs.registerOutParameter(3, java.sql.Types.INTEGER);
+			cs.execute();
+			count = cs.getInt(3);
+		} catch (Exception e) {
+			System.out.println("수강신청 등록 오류:" + e.toString());
+		}
+		return count;
+	}
+
+	// 수강 신청 목록
+	public ArrayList<EnrollVO> list(String scode){
+		ArrayList<EnrollVO> array = new ArrayList<EnrollVO>();
+		try {
+			String sql = "select * from view_enroll_cou where scode=?";
+			PreparedStatement ps = Database.CON.prepareStatement(sql);
+			ps.setString(1, scode);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				EnrollVO vo = new EnrollVO();
+				vo.setLcode(rs.getString("lcode"));
+				vo.setScode(rs.getString("scode"));
+				vo.setEdate(rs.getString("edate"));
+				vo.setGrade(rs.getInt("grade"));
+				vo.setLname(rs.getString("lname"));
+				vo.setRoom(rs.getString("room"));
+				vo.setHours(rs.getInt("hours"));
+				vo.setPname(rs.getString("pname"));
+				vo.setPersons(rs.getInt("persons"));
+				vo.setCapacity(rs.getInt("capacity"));
+				array.add(vo);
+			}
+		} catch (Exception e) {
+			System.out.println("수강신청목록오류: " + e.toString());
+		}
+		return array;
+	}
+
 	// 학생 정보 수정
 	public void update(StudentVO vo) {
 		try {
@@ -19,15 +79,15 @@ public class StudentDAO {
 			ps.setString(6, vo.getScode());
 			ps.execute();
 		} catch (Exception e) {
-			System.out.println("학생 정보 수정");
+			System.out.println("학생 정보 수정 오류: " + e.toString());
 		}
 	}
-	
+
 	// 학생 정보
 	public StudentVO read(String scode) {
 		StudentVO vo = new StudentVO();
 		try {
-			String sql = "select * from students where scode=?";
+			String sql = "select * from view_stu where scode=?";
 			PreparedStatement ps = Database.CON.prepareStatement(sql);
 			ps.setString(1, scode);
 			ResultSet rs = ps.executeQuery();
@@ -38,13 +98,14 @@ public class StudentDAO {
 				vo.setYear(rs.getInt("year"));
 				vo.setBirthday(rs.getString("birthday"));
 				vo.setAdvisor(rs.getString("advisor"));
+				vo.setPname(rs.getString("pname"));
 			}
 		} catch (Exception e) {
 			System.out.println("학생 정보 오류: " + e.toString());
 		}
 		return vo;
 	}
-	
+
 	// 학생 등록
 	public void insert(StudentVO vo) {
 		try {
@@ -69,7 +130,7 @@ public class StudentDAO {
 			System.out.println("학생 등록 오류: " + e.toString());
 		}
 	}
-	
+
 	// 학생 수
 	public int total(String query, String key) {
 		int total = 0;
@@ -87,11 +148,11 @@ public class StudentDAO {
 		}
 		return total;
 	}
-	
+
 	// 학생 목록
 	public List<StudentVO> list(int page, String query, String key){
 		List<StudentVO> array = new ArrayList<StudentVO>();
-		
+
 		try {
 			String sql = "select * from view_stu"
 					+ " where " + key + " like ?"
@@ -114,7 +175,7 @@ public class StudentDAO {
 		} catch (Exception e) {
 			System.out.println("학생 목록 오류: " + e.toString());
 		}
-		
+
 		return array;
 	}
 }

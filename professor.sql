@@ -37,7 +37,6 @@ create table courses(
 	foreign key(instructor) references professors(pcode)
 );
 
-
 desc courses;
 
 create table enrollments(
@@ -142,3 +141,35 @@ select max(lcode) ncode from courses;
 
 insert into students(scode, sname, dept, year, birthday, advisor)
 values('96414405', '김태양', '컴정', 3, '2000-01-01', '512');
+
+create view view_enroll_cou as
+select e.*, c.lname, c.room, c.hours, c.pname, c.persons, c.capacity
+from enrollments e, view_cou c
+where e.lcode = c.lcode;
+
+select * from view_enroll_cou where scode=92514023;
+
+update courses set capacity=6 where lcode >'';
+
+select * from courses;
+
+update courses c 
+set persons = (
+select count(*) 
+from enrollments e
+where c.lcode = e.lcode)
+where c.lcode > '';
+
+call add_enroll('96414405','N222', @cnt);
+select @cnt;
+
+select * from enrollments where scode = '96414405';
+
+call del_enroll('92414029', 'C301');
+
+create view view_enroll_stu as
+select e.*, s.sname, s.dept
+from enrollments e, students s 
+where e.scode = s.scode;
+
+select * from view_enroll_stu;

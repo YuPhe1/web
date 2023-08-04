@@ -25,7 +25,11 @@ public class DAOTest {
 //		}
 
 		
-//		StudentDAO dao = new StudentDAO();
+		StudentDAO dao = new StudentDAO();
+		
+		for(EnrollVO vo : dao.list("92514023")) {
+			System.out.println(vo.toString());
+		}
 //		
 //		for(StudentVO vo : dao.list(1, "4", "year")) {
 //			System.out.println(vo.toString());
@@ -33,8 +37,8 @@ public class DAOTest {
 //		
 //		System.out.println(dao.total("4", "year"));
 		
-		CourseDAO dao = new CourseDAO();
-		System.out.println(dao.getCode());
+//		CourseDAO dao = new CourseDAO();
+//		System.out.println(dao.getCode());
 //		for(CourseVO vo : dao.list(1, "이병렬", "pname")) {
 //			System.out.println(vo.toString());
 //		}

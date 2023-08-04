@@ -53,9 +53,9 @@
 			<td>강좌이름</td>
 			<td class="text-center">시수</td>
 			<td class="text-center">강의실</td>
-			<td class="text-center">강의교수번호</td>
+			<td class="text-center">수강인원</td>
 			<td class="text-center">강의교수</td>
-			<td class="text-center">수강인원/최대인원</td>
+			<td class="text-center">점수입력</td>
 		</tr>
 	{{#each .}}
 		<tr class="cou" lcode="{{lcode}}">
@@ -63,9 +63,9 @@
 			<td>{{lname}}</td>
 			<td class="text-center">{{hours}}</td>
 			<td class="text-center">{{room}}</td>
-			<td class="text-center">{{instructor}}</td>
-			<td class="text-center">{{pname}}</td>
 			<td class="text-center">{{persons}}/{{capacity}}</td>
+			<td class="text-center">{{pname}}</td>
+			<td class="text-center"><a href="/cou/grade?lcode={{lcode}}"><button class="btn btn-primary btn-sm">점수입력</button></a></td>
 		</tr>
 	{{/each}}
 	</table>
@@ -75,13 +75,12 @@
 	let url = "cou";
 	getTotal();
 	
-	$("#div_cou").on("click", ".cou", function(){
-		const lcode= $(this).attr("lcode");
+	$("#div_cou").on("click", ".cou td:not(:last-child)", function(){
+		const lcode= $(this).parent().attr("lcode");
 		// const lcode = $(this).find(".lcode").text();
+		
 		location.href="/cou/update?lcode=" + lcode;
 	});
-	
-	
 	$("#btn-insert").on("click", function(){
 		$("#modal-insert").modal("show");
 	});
