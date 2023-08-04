@@ -90,7 +90,7 @@
 	
 	$("#div_stu").on("click", ".btn-primary", function(){
 		const row = $(this).parent().parent();
-		const scode= $(row).attr("scode");
+		const scode= row.attr("scode");
 		console.log(scode);
 		location.href="/stu/enroll?scode=" + scode;
 	});
