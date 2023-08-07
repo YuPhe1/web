@@ -1,11 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<style>
-.title .price {
-	fontsize : 12px;
-}
-</style>
-
+    pageEncoding="UTF-8"%>
 <div class="row my-5">
 	<div class="col">
 		<h1 class="text-center mb-5">쇼핑몰</h1>
@@ -17,21 +11,32 @@
 				</div>
 			</form>
 		</div>
-		<div id="div_goods" class="row"></div>
+		<div id="div_goods"></div>
 		<div id="pagination" class="pagination justify-content-center"></div>
 	</div>
 </div>
 
 <script id="temp_goods" type="text/x-handlebars-template">
-	{{#each .}}
-	<div class="col-6 col-md-4 col-lg-2">
-		<div class="card p-3 mb-3">
-			<img src={{image}}>
-			<div class="ellipsis title mt-2">{{title}}</div>
-			<div class="price">{{formatPrice price}}</div>
-		</div>
-	</div>
-	{{/each}}
+	<table class="table">
+		<tr class="table-dark">
+			<td>상품번호</td>
+			<td>이미지</td>
+			<td>제목</td>
+			<td class="text-center">가격</td>
+			<td class="text-center">브랜드</td>
+			<td></td>
+		</tr>
+		{{#each .}}
+		<tr>
+			<td class="gid">{{gid}}</td>
+			<td><img class="image" src="{{image}}" width="50px"></td>
+			<td>{{title}}</td>
+			<td class="text-end">{{formatPrice price}}</td>
+			<td class="text-center">{{maker}}</td>
+			<td><button class="btn btn-danger btn-sm btn-delete">삭제</button></td>
+		</tr>
+		{{/each}}
+	</table>
 </script>
 <script>
 	Handlebars.registerHelper("formatPrice", function(price){
@@ -43,6 +48,23 @@
 	let query=$(frm.query).val();
 	
 	getTotal();
+	
+	$("#div_goods").on("click", ".btn-delete", function(){
+		const row = $(this).parent().parent();
+		const gid = row.find(".gid").text();
+		const image = row.find(".image").attr("src");
+		if(confirm("해당 상품을 삭제하실래요?")){
+			$.ajax({
+				type:"post",
+				url:"/goods/delete",
+				data:{gid:gid, image:image},
+				success:function(){
+					alert("상품이 삭제되었습니다.");
+					getTotal();
+				}
+			})
+		}
+	});
 	
 	$(frm).on("submit", function(e){
 		e.preventDefault();

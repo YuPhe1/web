@@ -15,9 +15,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import model.*;
 
-@WebServlet(value={"/goods/search", "/goods/search.json", "/goods/append"})
+@WebServlet(value={"/goods/search", "/goods/search.json", "/goods/append",
+		"/goods/list.json", "/goods/total", "/goods/list", "/goods/delete"})
 public class GoodsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -37,6 +40,21 @@ public class GoodsController extends HttpServlet {
 			String query = request.getParameter("query");
 			String result = NaverAPI.search(page, query);
 			out.print(result);
+			break;
+		case "/goods/list.json":	// 실행: /goods/list.json?page=1&query=
+			page = Integer.parseInt(request.getParameter("page"));
+			query = request.getParameter("query");
+			Gson gson = new Gson();
+			out.print(gson.toJson(goodsDAO.list(query, page)));
+			break;
+		case "/goods/total":
+			query = request.getParameter("query");
+			int total = goodsDAO.total(query);
+			out.print(total);
+			break;
+		case "/goods/list":
+			request.setAttribute("pageName", "/goods/list.jsp");
+			dis.forward(request, response);
 			break;
 		}
 	}
@@ -68,10 +86,21 @@ public class GoodsController extends HttpServlet {
 				vo.setMaker(request.getParameter("maker"));
 				vo.setPrice(Integer.parseInt(request.getParameter("lprice")));
 				vo.setImage(path + fileName);
-				System.out.println(vo.toString());
+//				System.out.println(vo.toString());
 				goodsDAO.insert(vo);
 			} catch(Exception e) {
 				System.out.println("상품이미지저장 오류: " + e.toString());
+			}
+			break;
+		case "/goods/delete":
+			try {
+				String gid = request.getParameter("gid");
+				String image = request.getParameter("image");
+				File file = new File("c:/"+ image);
+				file.delete();
+				goodsDAO.delete(gid);
+			} catch (Exception e) {
+				System.out.println("파일 삭제 오류: " + e.toString());
 			}
 			break;
 		}
