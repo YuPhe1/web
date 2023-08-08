@@ -26,7 +26,7 @@
 	{{#each .}}
 	<div class="col-6 col-md-4 col-lg-2">
 		<div class="card p-3 mb-3">
-			<img src={{image}}>
+			<img src={{image}} gid="{{gid}}" style="cursor:pointer;">
 			<div class="ellipsis title mt-2">{{title}}</div>
 			<div class="price">{{formatPrice price}}</div>
 		</div>
@@ -43,6 +43,11 @@
 	let query=$(frm.query).val();
 	
 	getTotal();
+	
+	$("#div_goods").on("click", "img", function(){
+		const gid = $(this).attr("gid");
+		location.href="/goods/read?gid=" + gid;
+	})
 	
 	$(frm).on("submit", function(e){
 		e.preventDefault();
@@ -82,7 +87,7 @@
 					alert("검색 결과가 없습니다.");
 					$(frm.query).val("");
 					query="";
-					getTotal();
+					//getTotal();
 				}
 			}
 		});

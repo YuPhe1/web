@@ -1,9 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<style>
+	.goods {
+		cursor: pointer;
+	}
+	.goods:hover {
+		background: lightgray;
+	}
+</style>
 <div class="row my-5">
 	<div class="col">
-		<h1 class="text-center mb-5">쇼핑몰</h1>
+		<h1 class="text-center mb-5">상품목록</h1>
 		<div class="row mb-4 justify-content-end">
+			<div class="col">
+				<a href="/goods/insert">
+					<button class="btn btn-primary">상품등록</button>
+				</a>
+			</div>
 			<form name="frm" class="col-4">
 				<div class="input-group">
 					<input name="query" class="form-control" value="">
@@ -27,7 +40,7 @@
 			<td></td>
 		</tr>
 		{{#each .}}
-		<tr>
+		<tr class="goods" gid={{gid}}>
 			<td class="gid">{{gid}}</td>
 			<td><img class="image" src="{{image}}" width="50px"></td>
 			<td>{{title}}</td>
@@ -46,6 +59,11 @@
 <script>
 	let page = 1;
 	let query=$(frm.query).val();
+	
+	$("#div_goods").on("click", ".goods td:not(:last-child)", function(){
+		const gid = $(this).parent().attr("gid");
+		location.href="/goods/update?gid=" + gid;
+	});
 	
 	getTotal();
 	

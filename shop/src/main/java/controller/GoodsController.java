@@ -16,11 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import model.*;
 
 @WebServlet(value={"/goods/search", "/goods/search.json", "/goods/append",
-		"/goods/list.json", "/goods/total", "/goods/list", "/goods/delete"})
+		"/goods/list.json", "/goods/total", "/goods/list", "/goods/delete",
+		"/goods/insert", "/goods/update", "/goods/read"})
 public class GoodsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -54,6 +57,20 @@ public class GoodsController extends HttpServlet {
 			break;
 		case "/goods/list":
 			request.setAttribute("pageName", "/goods/list.jsp");
+			dis.forward(request, response);
+			break;
+		case "/goods/insert":
+			request.setAttribute("pageName", "/goods/insert.jsp");
+			dis.forward(request, response);
+			break;
+		case "/goods/update":
+			request.setAttribute("vo", goodsDAO.read(request.getParameter("gid")));
+			request.setAttribute("pageName", "/goods/update.jsp");
+			dis.forward(request, response);
+			break;
+		case "/goods/read":
+			request.setAttribute("vo", goodsDAO.read(request.getParameter("gid")));
+			request.setAttribute("pageName", "/goods/read.jsp");
 			dis.forward(request, response);
 			break;
 		}
@@ -102,6 +119,44 @@ public class GoodsController extends HttpServlet {
 			} catch (Exception e) {
 				System.out.println("파일 삭제 오류: " + e.toString());
 			}
+			break;
+		case "/goods/insert":
+			MultipartRequest multi = new MultipartRequest(
+					request, "c:"+path, 1024*1024*10, "UTF-8", new DefaultFileRenamePolicy());
+			String image = multi.getFilesystemName("image");
+			
+			GoodsVO vo = new GoodsVO();
+			UUID uuid = UUID.randomUUID();
+			String gid = uuid.toString().substring(0,8);
+			vo.setGid(gid);
+			vo.setImage(path + image);
+			vo.setTitle(multi.getParameter("title"));
+			vo.setMaker(multi.getParameter("maker"));
+			vo.setPrice(Integer.parseInt(multi.getParameter("price")));
+			goodsDAO.insert(vo);
+			response.sendRedirect("/goods/list");
+			break;
+		case "/goods/update":
+			multi = new MultipartRequest(
+					request, "c:"+path, 1024*1024*10, "UTF-8", new DefaultFileRenamePolicy());
+			image = multi.getFilesystemName("image") == null ? multi.getParameter("oldImage") : path + multi.getFilesystemName("image") ;
+			if(multi.getFilesystemName("image") != null) {
+				try {
+				String deleteImage = multi.getParameter("oldImage");
+				File file = new File("c:/"+ deleteImage);
+				file.delete();
+				} catch (Exception e) {
+					System.out.println("파일 삭제 오류: " + e.toString());
+				}
+			}
+			vo = new GoodsVO();
+			vo.setGid(multi.getParameter("gid"));
+			vo.setImage(image);
+			vo.setTitle(multi.getParameter("title"));
+			vo.setMaker(multi.getParameter("maker"));
+			vo.setPrice(Integer.parseInt(multi.getParameter("price")));
+			goodsDAO.update(vo);
+			response.sendRedirect("/goods/list");
 			break;
 		}
 	}
