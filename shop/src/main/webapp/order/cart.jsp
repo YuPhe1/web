@@ -1,9 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<style>
+#total {
+	font-size: 20px;
+}
+</style>   
+ 
 <div class="row my-5">
 	<div class="col">
 		<h1 class="text-center mb-5">장바구니</h1>
 		<div id="div_cart"></div>
+		<div class="text-center">
+			<button class="btn btn-primary px-5" id="btn-order">주문하기</button>
+		</div>
 	</div>
 </div>
 
@@ -11,17 +20,18 @@
 	
 	<table class="table">
 		<tr class="table-dark">
-			<td>상품번호</td>
-			<td>이미지</td>
-			<td>상품이름</td>
-			<td>가격</td>
-			<td class="text-center">수량</td>	
-			<td class="text-center">합계</td>	
-			<td>삭제</td>
+			<th><input type="checkbox" id="all"></th>
+			<th>상품번호</th>
+			<th>이미지</th>
+			<th>상품이름</th>
+			<th>가격</th>
+			<th class="text-center">수량</th>	
+			<th class="text-center">합계</th>	
+			<th>삭제</th>
 		</tr>
 	{{#each .}}
 		<tr class="tr" price={{price}}>
-			
+			<td><input type="checkbox" class="chk"></td>
 			<td class="gid">{{gid}}</td>
 			<td><img src="{{image}}" width="50px"></td>
 			<td>{{title}}</td>
@@ -34,7 +44,7 @@
 		</tr>
 	{{/each}}
 		<tr>
-			<td colspan="7" class="text-end">총합계: <span id="sum">0</span></td>
+			<td colspan="8" class="text-end" id="total"><b>총합계: </b><span id="sum">0</span></td>
 		</tr>
 	</table>
 </script>
@@ -57,8 +67,31 @@
 	}) */
 </script>
 <script>
-	
 	getList();
+
+	// 각 행의 체크박스를 클릭한 경우
+	$("#div_cart").on("click", ".chk", function(){
+		const all = $("#div_cart .chk").length;
+		const chk = $("#div_cart .chk:checked").length;
+		if(all == chk){
+			$("#div_cart #all").prop("checked", true);
+		} else {
+			$("#div_cart #all").prop("checked", false);
+		}
+	});
+	
+	// 전체 선택을 체크한 경우
+	$("#div_cart").on("click", "#all", function(){
+		if($(this).is(":checked")){
+			$("#div_cart .chk").each(function(){
+				$(this).prop("checked", true);
+			});
+		} else {
+			$("#div_cart .chk").each(function(){
+				$(this).prop("checked", false);
+			});
+		}
+	});
 	
 	function getSum(){
 		let sum = 0;
@@ -67,7 +100,7 @@
 			const qnt = $(this).find(".qnt").val();
 			sum += price*qnt;
 		});
-		$("#sum").html(sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
+		$("#sum").html("<b>" + sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원</b>");
 	}
 	
 	$("#div_cart").on("click", ".btn-secondary", function(){
