@@ -70,7 +70,6 @@
 	    	getList();
 	    }
 	});
-	
 	// 전체 상품의 개수
 	function getTotal(){
 		$.ajax({
