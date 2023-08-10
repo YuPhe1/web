@@ -26,10 +26,10 @@ public class UserDAO {
 		ArrayList<UserVO> array = new ArrayList<UserVO>();
 		try {
 			String sql = "select * from users where " + key + " like ? "
-					+ "order by regDate desc limit ?,5";
+					+ "order by regDate desc limit ?,6";
 			PreparedStatement ps = Database.CON.prepareStatement(sql);
 			ps.setString(1, "%"+ query+"%");
-			ps.setInt(2, (page-1)*5);
+			ps.setInt(2, (page-1)*6);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				UserVO vo = new UserVO();

@@ -26,6 +26,9 @@
 						<li class="nav-item">
 							<a class="nav-link active" aria-current="page" href="/user/list">회원목록</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="/purchase/list">구매목록</a>
+						</li>
 					</ul>
 					<ul class="navbar-nav mb-2 mb-lg-0">
 						<c:if test="${user==null}">

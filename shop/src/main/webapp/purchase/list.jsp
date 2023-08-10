@@ -3,61 +3,61 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="row my-5">
 	<div class="col">
-		<h1 class="text-center mb-5">회원목록</h1>
+		<h1 class="text-center mb-5">주문목록</h1>
 			<form name="frm" class="col-6 col-md-4 text-end">
 				<div class="input-group mb-3">
 					<select name="key" class="form-select">
-						<option value="uid">아이디</option>
+						<option value="uid">회원아이디</option>
 						<option value="uname" selected>회원이름</option>
-						<option value="address1">회원주소</option>
-						<option value="phone">회원전화</option>
+						<option value="raddress1">배송지주소</option>
+						<option value="rphone">회원전화</option>
 					</select>&nbsp;
 					<input name="query" placeholder="검색" class="form-control">
 					<button class="btn btn-primary">검색</button>
 				</div>
 			</form>
-		<div id="div_user"></div>
+		<div id="div_purchase"></div>
 		<div id="pagination" class="pagination justify-content-center"></div>
 	</div>
 </div>
 
-<script id="temp_user" type="text/x-handlebars-tempate">
-	<div class="row">
-	{{#each .}}
-		<div class="col-md-2 col-4 p-3">
-			<div class="card p-3">
-			<img src="{{getImage photo}}" width="80%">
-			<hr>
-			<div>{{uname}} ({{uid}})</div>
-			<div>{{address1}} {{address2}}</div>
-			<div>{{phone}}</div>
-			</div>
-		</div>
-	{{/each}}
-	</div>
+<script id="temp_purchase" type="x-handlebars-template">
+	<table class="table">
+		<tr class="table-dark">
+			<td>주문번호</td>
+			<td>주문자</td>
+			<td>전화번호</td>
+			<td>배송지</td>
+			<td>가격</td>
+			<td>주문일</td>
+		</td>
+		{{#each .}}
+			<tr>
+				<td>{{pid}}</td>
+				<td>{{uname}}</td>
+				<td>{{rphone}}</td>
+				<td>{{raddress1}}</td>
+				<td>{{purSum}}</td>
+				<td>{{purDate}}</td>
+			</tr>
+		{{/each}}
+	</table>
 </script>
-<script>
-Handlebars.registerHelper("getImage", function(thum){
-    if(thum){
-        return thum;
-    } else {
-        return "https://via.placeholder.com/100x100"
-    }
-});
 
-</script>
 <script>
 	let page = 1;
-	let query = $(frm.query).val();
 	let key = $(frm.key).val();
+	let query = $(frm.query).val();
+	
 	getTotal();
+	
 	$(frm).on("submit", function(e) {
 		e.preventDefault();
 		query = $(frm.query).val();
 		key = $(frm.key).val();
 		getTotal();
 	});
-
+	
 	// pagination
 	$('#pagination').twbsPagination({
 		totalPages: 1, // 총 페이지 번호 수
@@ -68,37 +68,35 @@ Handlebars.registerHelper("getImage", function(thum){
 		prev: '<<', // 이전 페이지 버튼에 쓰여있는 텍스트
 		next: '>', // 다음 페이지 버튼에 쓰여있는 텍스트
 		last: '>>', // 페이지네이션 버튼중 마지막으로 가는 버튼에 쓰여있는 텍스트
-		onPageClick: function(event, page) {
-			getList(page);
+		onPageClick: function(event, curPage) {
+			page = curPage;
+			getList();
 		}
 	});
-
-	// 목록 
-	function getList(page) {
+	
+	function getList(){
 		$.ajax({
-			type: "get",
-			url: "/user/list.json",
-			data: { page: page, query: query, key: key },
-			dataType: "json",
-			success: function(data) {
-				// console.log(data);
-				const temp = Handlebars.compile($("#temp_user").html());
-				const html = temp(data);
-				$("#div_user").html(html);
+			type:"get",
+			url:"/purchase/list.json",
+			data:{page:page, query:query, key:key},
+			dataType:"json",
+			success:function(data){
+				const temp = Handlebars.compile($("#temp_purchase").html());
+				$("#div_purchase").html(temp(data));
 			}
-		});
+		});	
 	}
-
+	
 	// 전체 페이지 수
 	function getTotal() {
 		$.ajax({
 			type: "get",
-			url: "/user/total",
+			url: "/purchase/total",
 			data: { query: query, key: key },
 			success: function(data) {
 				console.log(data);
 				if (data != 0) {
-					const totalPages = Math.ceil(data / 6);
+					const totalPages = Math.ceil(data / 5);
 					$("#pagination").twbsPagination("changeTotalPages",
 						totalPages, 1);
 				} else {

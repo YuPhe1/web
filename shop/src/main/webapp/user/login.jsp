@@ -14,6 +14,7 @@
 	</div>
 </div>
 <script>
+	const target = "${target}";
 	$(frm).on("submit", function(e){
 		e.preventDefault();
 		const uid = $(frm.uid).val();
@@ -35,7 +36,12 @@
 					} else if(data == 2){
 						alert("비밀번호를 확인하세요");
 					} else {
-						location.href="/"; 
+						//alert("로그인 성공");
+						if(target == ""){
+							location.href="/";
+						}else{
+							location.href=target;
+						}
 					}
 				}
 			});

@@ -31,7 +31,7 @@ desc users;
 
 
 /* 구매자 정보 테이블 */
-create table punchase(
+create table purchase(
 	pid char(13) not null primary key,
     uid varchar(20) not null,
 	raddress1 varchar(300),
@@ -49,7 +49,7 @@ create table orders(
     gid char(8) not null,
     price int default 0,
     qnt int default 0,
-    foreign key(pid) references punchase(pid),
+    foreign key(pid) references purchase(pid),
     foreign key(gid) references goods(gid)
 );
 

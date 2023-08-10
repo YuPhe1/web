@@ -43,7 +43,7 @@ public class CartCotroller extends HttpServlet {
 				if(vo.getGid().equals(gid)) {
 					find = true;
 					vo.setQnt(vo.getQnt() + 1);
-					System.out.println(vo.toString());
+//					System.out.println(vo.toString());
 					break;
 				}
 			}
@@ -55,7 +55,7 @@ public class CartCotroller extends HttpServlet {
 				cvo.setImage(gvo.getImage());
 				cvo.setPrice(gvo.getPrice());
 				cvo.setQnt(1);
-				System.out.println(cvo.toString());
+//				System.out.println(cvo.toString());
 				arrCart.add(cvo);
 			}
 			session.setAttribute("arrCart", arrCart);

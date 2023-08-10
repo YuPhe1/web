@@ -34,6 +34,9 @@ public class UserController extends HttpServlet {
 		HttpSession session = request.getSession();
 		switch (request.getServletPath()) {
 		case "/user/login":
+			String target = request.getParameter("target") == null ?
+					"" : request.getParameter("target");
+			session.setAttribute("target", target);
 			request.setAttribute("pageName", "/user/login.jsp");
 			dis.forward(request, response);
 			break;
@@ -95,7 +98,6 @@ public class UserController extends HttpServlet {
 			out.print(result);
 			break;
 		case "/user/insert":
-			
 			// 사진저장
 			MultipartRequest multi = new MultipartRequest(
 					request, "c:"+path, 1024*1024*10, "UTF-8", new DefaultFileRenamePolicy());
