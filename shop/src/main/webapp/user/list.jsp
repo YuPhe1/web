@@ -16,25 +16,25 @@
 					<button class="btn btn-primary">검색</button>
 				</div>
 			</form>
-		<div id="div_user"></div>
+		<div id="div_user" class="row"></div>
 		<div id="pagination" class="pagination justify-content-center"></div>
 	</div>
 </div>
 
 <script id="temp_user" type="text/x-handlebars-tempate">
-	<div class="row">
 	{{#each .}}
-		<div class="col-md-2 col-4 p-3">
-			<div class="card p-3">
-			<img src="{{getImage photo}}" width="80%">
-			<hr>
-			<div>{{uname}} ({{uid}})</div>
-			<div>{{address1}} {{address2}}</div>
-			<div>{{phone}}</div>
+		<div class="col-6 col-md-4 col-lg-2">
+			<div class="card mb-3 p-3">
+				<img src="{{getImage photo}}" class="card-img-top">
+				<hr>
+				<div class="card-body">
+					<div><a href="/user/read?uid={{uid}}">{{uname}} ({{uid}})</a></div>
+					<div class="ellipsis address">{{address1}} {{address2}}</div>
+					<div class="ellipsis phone">{{phone}}</div>
+				</div>
 			</div>
 		</div>
 	{{/each}}
-	</div>
 </script>
 <script>
 Handlebars.registerHelper("getImage", function(thum){
