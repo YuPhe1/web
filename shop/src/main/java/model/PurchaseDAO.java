@@ -8,32 +8,98 @@ public class PurchaseDAO {
 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
-	public int total(String key, String query) {
+	// 주문 상태 변경
+	public void update(String pid, int status) {
+		try {
+			String sql = "update purchase set status=? where pid=?";
+			PreparedStatement ps = Database.CON.prepareStatement(sql);
+			ps.setInt(1, status);
+			ps.setString(2, pid);
+			ps.execute();
+		} catch (Exception e) {
+			System.out.println("주문상태 변경 오류: " + e.toString());
+		}
+	}
+	
+	// 구매한 상품 목록
+	public ArrayList<OrderVO> list(String pid){
+		ArrayList<OrderVO> array = new ArrayList<OrderVO>();
+		try {
+			String sql = "select * from view_orders where pid=?";
+			PreparedStatement ps = Database.CON.prepareStatement(sql);
+			ps.setString(1, pid);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				OrderVO vo = new OrderVO();
+				vo.setOid(rs.getInt("oid"));
+				vo.setPid(rs.getString("pid"));
+				vo.setGid(rs.getString("gid"));
+				vo.setPrice(rs.getInt("price"));
+				vo.setQnt(rs.getInt("qnt"));
+				vo.setTitle(rs.getString("title"));
+				vo.setImage(rs.getString("image"));
+				array.add(vo);
+			}
+		}catch (Exception e) {
+			System.out.println("구매한 상품목록 오류: " + e.toString());
+		}
+		return array;
+	}
+	
+	// 주문 정보
+	public PurchaseVO read(String pid){
+		PurchaseVO vo = new PurchaseVO();
+		try {
+			String sql = "select * from view_purchase where pid=?";
+			PreparedStatement ps = Database.CON.prepareStatement(sql);
+			ps.setString(1, pid);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				vo.setPid(rs.getString("pid"));
+				vo.setUid(rs.getString("uid"));
+				vo.setRphone(rs.getString("rphone"));
+				vo.setRaddress1(rs.getString("raddress1"));
+				vo.setRaddress2(rs.getString("raddress2"));
+				vo.setPurDate(sdf.format(rs.getTimestamp("purDate")));
+				vo.setStatus(rs.getInt("status"));
+				vo.setPurSum(rs.getInt("purSum"));
+				vo.setUname(rs.getString("uname"));
+			}
+		}catch (Exception e) {
+			System.out.println("주문정보 오류: " + e.toString());
+		}
+		return vo;
+	}
+	
+	// 검색 수
+	public int total(String key, String query, String query2) {
 		int total = 0;
 		try {
 			String sql = "select count(*) cnt from view_purchase where " + key 
-					+ " like ?";
+					+ " like ? and status like ?";
 			PreparedStatement ps = Database.CON.prepareStatement(sql);
 			ps.setString(1, "%" + query + "%");
+			ps.setString(2, "%" + query2 + "%");
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
 				total = rs.getInt("cnt");
 			}
 		}catch (Exception e) {
-			System.out.println("주문목록 오류: " + e.toString());
+			System.out.println("주문 검색 수 오류: " + e.toString());
 		}
 		return total;
 	}
 	
 	// 주문목록
-	public ArrayList<PurchaseVO> list(String key, String query, int page){
+	public ArrayList<PurchaseVO> list(String key, String query, int page, String query2){
 		ArrayList<PurchaseVO> array = new ArrayList<PurchaseVO>();
 		try {
 			String sql = "select * from view_purchase where " + key 
-					+ " like ? order by purDate desc limit ?,5";
+					+ " like ? and status like ? order by purDate desc limit ?,5";
 			PreparedStatement ps = Database.CON.prepareStatement(sql);
 			ps.setString(1, "%" + query + "%");
-			ps.setInt(2, (page-1)*5);
+			ps.setString(2, "%" + query2 + "%");
+			ps.setInt(3, (page-1)*5);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				PurchaseVO vo = new PurchaseVO();

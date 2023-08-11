@@ -17,7 +17,7 @@ import model.*;
 
 
 @WebServlet(value={"/purchase/insert", "/order/insert", "/purchase/list.json",
-		"/purchase/list", "/purchase/total"})
+		"/purchase/list", "/purchase/total", "/purchase/read", "/purchase/update"})
 public class PurchaseController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -31,9 +31,10 @@ public class PurchaseController extends HttpServlet {
 		case "/purchase/list.json": // 실행 /purchase/list.json?page=1&key=pid&query=
 			String key = request.getParameter("key");
 			String query = request.getParameter("query");
+			String query2 = request.getParameter("query2");
 			int page = Integer.parseInt(request.getParameter("page"));
 			Gson gson = new Gson();
-			out.print(gson.toJson(dao.list(key, query, page)));
+			out.print(gson.toJson(dao.list(key, query, page, query2)));
 			break;
 		case "/purchase/list":
 			request.setAttribute("pageName", "/purchase/list.jsp");
@@ -42,7 +43,15 @@ public class PurchaseController extends HttpServlet {
 		case "/purchase/total":
 			key = request.getParameter("key");
 			query = request.getParameter("query");
-			out.print(dao.total(key, query));
+			query2 = request.getParameter("query2");
+			out.print(dao.total(key, query, query2));
+			break;
+		case "/purchase/read":
+			String pid = request.getParameter("pid");
+			request.setAttribute("vo", dao.read(pid));
+			request.setAttribute("array", dao.list(pid));
+			request.setAttribute("pageName", "/purchase/read.jsp");
+			dis.forward(request, response);
 			break;
 		}
 	}
@@ -73,6 +82,11 @@ public class PurchaseController extends HttpServlet {
 			ovo.setQnt(Integer.parseInt(request.getParameter("qnt")));
 //			System.out.println(ovo.toString());
 			dao.insert(ovo);
+			break;
+		case "/purchase/update":
+			pid = request.getParameter("pid");
+			int status = Integer.parseInt(request.getParameter("status"));
+			dao.update(pid, status);
 			break;
 		}
 	}

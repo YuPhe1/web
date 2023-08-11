@@ -11,8 +11,18 @@ public class UserVO {
 	private String address2;
 	private Date regDate;
 	private String photo;
+	private int role;
 	
-	
+	public int getRole() {
+		return role;
+	}
+
+
+	public void setRole(int role) {
+		this.role = role;
+	}
+
+
 	public String getUid() {
 		return uid;
 	}

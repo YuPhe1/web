@@ -41,6 +41,7 @@ public class UserDAO {
 				vo.setPhone(rs.getString("phone"));
 				vo.setPhoto(rs.getString("photo"));
 				vo.setRegDate(rs.getTimestamp("regDate"));
+				vo.setRole(rs.getInt("role"));
 				array.add(vo);
 			}
 		} catch (Exception e) {
@@ -103,6 +104,7 @@ public class UserDAO {
 				vo.setPhone(rs.getString("phone"));
 				vo.setPhoto(rs.getString("photo"));
 				vo.setRegDate(rs.getTimestamp("regDate"));
+				vo.setRole(rs.getInt("role"));
 			}
 		} catch (Exception e) {
 			System.out.println("회원정보읽기:" + e.toString());

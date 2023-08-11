@@ -37,14 +37,13 @@
 	{{/each}}
 </script>
 <script>
-Handlebars.registerHelper("getImage", function(thum){
-    if(thum){
-        return thum;
-    } else {
-        return "https://via.placeholder.com/100x100"
-    }
-});
-
+	Handlebars.registerHelper("getImage", function(thum){
+	    if(thum){
+	        return thum;
+	    } else {
+	        return "https://via.placeholder.com/100x100"
+	    }
+	});
 </script>
 <script>
 	let page = 1;
@@ -101,11 +100,13 @@ Handlebars.registerHelper("getImage", function(thum){
 					const totalPages = Math.ceil(data / 6);
 					$("#pagination").twbsPagination("changeTotalPages",
 						totalPages, 1);
+				}else {
+					$("#div_purchase").html("<h3 class='text-center'>검색 결과가 없습니다.</h3>");
+				}
+				if(data > 6){
+					$("#pagination").show();
 				} else {
-					alert("검색내용이 없습니다!");
-					$(frm.query).val("");
-					query="";
-					getTotal();
+					$("#pagination").hide();
 				}
 			}
 		});

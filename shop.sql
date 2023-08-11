@@ -59,3 +59,36 @@ insert into users(uid, upass, uname, phone, address1, address2)
 values('pink', 'pass', '이핑크', '010-1010-2020', '인천 부평구 계산동', '현대 612-604');
 
 select * from users;
+
+select count(*) from purchase;
+
+select * from orders;
+
+create view view_purchase as
+select p.*, u.uname
+from purchase p ,users u
+where p.uid = u.uid;
+
+create view view_orders as
+select o.*,title, image
+from orders o , goods g 
+where o.gid = g.gid;
+
+select * from view_orders;
+alter table users add role int default 2;
+select * from users;
+
+insert into users(uid, upass, uname, role)
+values('manager', 'pass', '관리자', 1);
+
+create table reviews(
+	rid int auto_increment primary key,
+    uid varchar(20) not null,
+    gid char(8) not null,
+    revDate datetime default now(),
+    contene text,
+    foreign key(uid) references users(uid),
+    foreign key(gid) references goods(gid)
+);
+
+drop table reviews;

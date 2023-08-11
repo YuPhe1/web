@@ -24,6 +24,20 @@
 		</div>
 	</div>
 </div>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+	<li class="nav-item" role="presentation">
+		<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#detail-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">상세설명</button>
+	</li>
+	<li class="nav-item" role="presentation">
+		<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#review-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">고객리뷰</button>
+	</li>
+</ul>
+<div class="tab-content" id="myTabContent">
+	<div class="tab-pane fade show active" id="detail-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">상세설명...</div>
+	<div class="tab-pane fade" id="review-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+		<jsp:include page="review.jsp"/>
+	</div>
+</div>
 <script>
 	$("#btn-cart").on("click", function(){
 		const gid = $(this).attr("gid");

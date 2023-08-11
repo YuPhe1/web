@@ -14,21 +14,26 @@
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item">
-							<a class="nav-link active" aria-current="page" href="/goods/search">상품검색</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link active" aria-current="page" href="/goods/list">상품목록</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link active" aria-current="page" href="/cart/list">장바구니</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link active" aria-current="page" href="/user/list">회원목록</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link active" aria-current="page" href="/purchase/list">구매목록</a>
-						</li>
+						<c:if test="${user.role!=1}">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/cart/list">장바구니</a>
+							</li>
+						</c:if>
+						<c:if test="${user.role==1}">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/goods/search">상품검색</a>
+							</li>
+						
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/goods/list">상품목록</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/user/list">회원목록</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/purchase/list">주문목록</a>
+							</li>
+						</c:if>
 					</ul>
 					<ul class="navbar-nav mb-2 mb-lg-0">
 						<c:if test="${user==null}">

@@ -119,10 +119,12 @@
 					const totalPages= Math.ceil(data/6);
 		    		$("#pagination").twbsPagination("changeTotalPages", totalPages, 1);
 				} else {
-					alert("검색 결과가 없습니다.");
-					$(frm.query).val("");
-					query="";
-					getTotal();
+					$("#div_goods").html("<h3 class='text-center'>검색 결과가 없습니다.</h3>");
+				}
+				if(data > 6){
+					$("#pagination").show();
+				} else {
+					$("#pagination").hide();
 				}
 			}
 		});
