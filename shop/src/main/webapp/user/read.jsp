@@ -33,10 +33,6 @@
 						<input name="uid" class="form-control" value="${vo.uid}" readonly>
 					</div>
 					<div class="input-group mb-3">
-						<span class="input-group-text">비밀번호</span>
-						<input name="upass" class="form-control" name="upass" value="${vo.upass}" type="password" readonly>
-					</div>
-					<div class="input-group mb-3">
 						<span class="input-group-text">회 원 명</span>
 						<input name="uname" class="form-control" value="${vo.uname}">
 					</div>

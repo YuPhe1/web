@@ -7,7 +7,33 @@ import java.text.*;
 public class PurchaseDAO {
 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
+
+
+	// 특정 유저의 구매목록
+	public ArrayList<PurchaseVO> user(String uid){
+		ArrayList<PurchaseVO> array = new ArrayList<PurchaseVO>();
+		try {
+			String sql = "select * from purchase where uid=? order by purDate desc";
+			PreparedStatement ps = Database.CON.prepareStatement(sql);
+			ps.setString(1, uid);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				PurchaseVO vo = new PurchaseVO();
+				vo.setPid(rs.getString("pid"));
+				vo.setUid(rs.getString("uid"));
+				vo.setRphone(rs.getString("rphone"));
+				vo.setRaddress1(rs.getString("raddress1"));
+				vo.setRaddress2(rs.getString("raddress2"));
+				vo.setPurDate(sdf.format(rs.getTimestamp("purDate")));
+				vo.setStatus(rs.getInt("status"));
+				vo.setPurSum(rs.getInt("purSum"));
+				array.add(vo);
+			}
+		}catch (Exception e) {
+			System.out.println("특정 유저의 구매목록: " + e.toString());
+		}
+		return array;
+	}
 	// 주문 상태 변경
 	public void update(String pid, int status) {
 		try {
@@ -20,7 +46,7 @@ public class PurchaseDAO {
 			System.out.println("주문상태 변경 오류: " + e.toString());
 		}
 	}
-	
+
 	// 구매한 상품 목록
 	public ArrayList<OrderVO> list(String pid){
 		ArrayList<OrderVO> array = new ArrayList<OrderVO>();
@@ -45,7 +71,7 @@ public class PurchaseDAO {
 		}
 		return array;
 	}
-	
+
 	// 주문 정보
 	public PurchaseVO read(String pid){
 		PurchaseVO vo = new PurchaseVO();
@@ -70,7 +96,7 @@ public class PurchaseDAO {
 		}
 		return vo;
 	}
-	
+
 	// 검색 수
 	public int total(String key, String query, String query2) {
 		int total = 0;
@@ -89,7 +115,7 @@ public class PurchaseDAO {
 		}
 		return total;
 	}
-	
+
 	// 주문목록
 	public ArrayList<PurchaseVO> list(String key, String query, int page, String query2){
 		ArrayList<PurchaseVO> array = new ArrayList<PurchaseVO>();
@@ -119,7 +145,7 @@ public class PurchaseDAO {
 		}
 		return array;
 	}
-	
+
 	// 주문상품등록
 	public void insert(OrderVO vo) {
 		try {
@@ -135,7 +161,7 @@ public class PurchaseDAO {
 			System.out.println("주문상품등록 오류: " + e.toString());
 		}
 	}
-	
+
 	// 주문등록오류
 	public void insert(PurchaseVO vo) {
 		try {

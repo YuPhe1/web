@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -17,7 +18,7 @@ import model.*;
 
 
 @WebServlet(value={"/purchase/insert", "/order/insert", "/purchase/list.json",
-		"/purchase/list", "/purchase/total", "/purchase/read", "/purchase/update"})
+		"/purchase/list", "/purchase/total", "/purchase/read", "/purchase/update", "/purchase/user"})
 public class PurchaseController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -51,6 +52,13 @@ public class PurchaseController extends HttpServlet {
 			request.setAttribute("vo", dao.read(pid));
 			request.setAttribute("array", dao.list(pid));
 			request.setAttribute("pageName", "/purchase/read.jsp");
+			dis.forward(request, response);
+			break;
+		case "/purchase/user":
+			HttpSession session = request.getSession();
+			UserVO user = (UserVO)session.getAttribute("user");
+			request.setAttribute("array", dao.user(user.getUid()));
+			request.setAttribute("pageName", "/purchase/user.jsp");
 			dis.forward(request, response);
 			break;
 		}

@@ -78,14 +78,17 @@ public class GoodsDAO {
 	}
 	
 	// 상품목록
-	public ArrayList<GoodsVO> list(String query, int page){
+	public ArrayList<GoodsVO> list(String query, int page, String uid){
 		ArrayList<GoodsVO> array = new ArrayList<GoodsVO>();
 		try {
-			String sql = "select * from goods where title like ?"
-					+ " order by regDate desc limit ?,6";
+			String sql = "select * ,"
+					+ "(select count(*) from favorite where gid=g.gid and uid=?) ucnt"
+					+ " from view_goods g where title like ?"
+					+ " limit ?,6";
 			PreparedStatement ps = Database.CON.prepareStatement(sql);
-			ps.setString(1, "%"+ query +"%");
-			ps.setInt(2, (page-1)*6);
+			ps.setString(1, uid);
+			ps.setString(2, "%"+ query +"%");
+			ps.setInt(3, (page-1)*6);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				GoodsVO vo = new GoodsVO();
@@ -95,6 +98,9 @@ public class GoodsDAO {
 				vo.setPrice(rs.getInt("price"));
 				vo.setMaker(rs.getString("maker"));
 				vo.setRegDate(sdf.format(rs.getTimestamp("regDate")));
+				vo.setFcnt(rs.getInt("fcnt"));
+				vo.setRcnt(rs.getInt("rcnt"));
+				vo.setUcnt(rs.getInt("ucnt"));
 				array.add(vo);
 			}
 		} catch (Exception e) {

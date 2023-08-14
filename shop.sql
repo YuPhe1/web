@@ -86,9 +86,48 @@ create table reviews(
     uid varchar(20) not null,
     gid char(8) not null,
     revDate datetime default now(),
-    contene text,
+    content text,
     foreign key(uid) references users(uid),
     foreign key(gid) references goods(gid)
 );
 
 drop table reviews;
+desc reviews;
+
+select count(*) from reviews;
+
+create view view_reviews as
+select r.*, u.uname, u.photo
+from reviews r, users u
+where r.uid = u.uid;
+
+select * from view_reviews;
+
+create table favorite(
+	gid char(8) not null,
+	uid varchar(20) not null,
+    regDate datetime default now(),
+    primary key(gid, uid),
+    foreign key(uid) references users(uid),
+    foreign key(gid) references goods(gid)
+);
+
+insert into favorite(gid, uid)
+values('85abd749','black');
+
+select * from favorite;
+
+create view view_goods as
+select * , (select count(*) from reviews where gid=g.gid) rcnt,
+(select count(*) from favorite where gid=g.gid) fcnt
+from goods g
+order by regDate desc;
+
+select *, (select count(*) from favorite where gid=g.gid and uid='blue') ucnt from view_goods g;
+
+select count(*) ucnt from favorite where gid = '85abd749' and  uid = 'black';
+
+select count(*) fcnt,
+ (select count(*) ucnt from favorite where gid = '85abd749' and  uid = 'black') ucnt
+ from favorite
+ where gid = '85abd749';

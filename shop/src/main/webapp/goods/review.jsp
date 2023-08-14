@@ -42,9 +42,9 @@
 					</div>
 				</div>
 				<div class="div-update{{rid}}" style="display:none;" rid={{rid}}>
-					<textarea rows="3" class="form-control">{{content}}</textarea>
+					<textarea rows="3" class="form-control content2">{{content}}</textarea>
 					<div class="text-end mt-3">
-						<button class="btn btn-primary btn-sm">저장</button>
+						<button class="btn btn-primary btn-sm btn-save">저장</button>
 						<button class="btn btn-secondary btn-sm btn-cancel">취소</button>
 					</div>
 				</div>
@@ -70,6 +70,24 @@
 	const uid = "${user.uid}";
 	const gid = "${vo.gid}";
 	
+	// 리뷰 수정후 저장버튼을 눌른경우
+	$("#div_review").on("click", ".btn-save", function(){
+		const update = $(this).parent().parent();
+		const rid = update.attr("rid");
+		const content = update.find(".content2").val();
+		if(confirm(rid + "번 리뷰를 수정하실래요?")){
+			// 리뷰수정
+			$.ajax({
+				type:"post",
+				url:"/review/update",
+				data:{rid, content},
+				success:function(){
+					getList();
+				}
+			});
+		}
+	});
+	
 	// 리뷰 수정버튼이나 취소버튼을 클릭한 경우
 	$("#div_review").on("click", ".btn-update, .btn-cancel", function(){
 		const rid = $(this).parent().parent().attr("rid");
@@ -78,10 +96,18 @@
 	})
 	
 	// 리뷰 삭제버튼을 클릭한 경우
-	$("#div_review").on("click", "btn-delete", function(){
+	$("#div_review").on("click", ".btn-delete", function(){
 		const rid = $(this).parent().parent().attr("rid");
 		if(confirm(rid + "번 리뷰를 삭제하실래요?")){
 			// 리뷰삭제
+			$.ajax({
+				type:"post",
+				url:"/review/delete",
+				data:{rid:rid},
+				success:function(){
+					getList();
+				}
+			});
 		}
 	})
 	
@@ -123,6 +149,7 @@
 			dataType:"json",
 			success:function(data){
 				// console.log(data);
+				$("#rcnt").html(data.length);
 				const temp = Handlebars.compile($("#temp_review").html());
 				const html = $("#div_review").html(temp(data));
 			}

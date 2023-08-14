@@ -18,6 +18,9 @@
 							<li class="nav-item">
 								<a class="nav-link active" aria-current="page" href="/cart/list">장바구니</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/purchase/user">구매목록</a>
+							</li>
 						</c:if>
 						<c:if test="${user.role==1}">
 							<li class="nav-item">
@@ -43,7 +46,7 @@
 						</c:if>
 						<c:if test="${user!=null}">
 							<li class="nav-item">
-								<a class="nav-link active" aria-current="page" href="/user/read">${user.uname}님</a>
+								<a class="nav-link active" aria-current="page" href="/user/read?uid=${user.uid}">${user.uname}님</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link active" aria-current="page" href="/user/logout">로그아웃</a>

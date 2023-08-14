@@ -25,10 +25,18 @@
 <script id="temp_goods" type="text/x-handlebars-template">
 	{{#each .}}
 	<div class="col-6 col-md-4 col-lg-2">
-		<div class="card p-3 mb-3">
-			<img src={{image}} gid="{{gid}}" style="cursor:pointer;">
-			<div class="ellipsis title mt-2">{{title}}</div>
-			<div class="price">{{formatPrice price}}</div>
+		<div class="card mb-3">
+			<div class="card-body">
+				<img src={{image}} gid="{{gid}}" style="cursor:pointer;" width="100%">
+				<div class="ellipsis title mt-2">{{title}}</div>
+				<div class="price">{{formatPrice price}}</div>
+			</div>
+			<div class="card-footer text-end">
+				<i class="bi {{heart ucnt}}" style="color: red;"></i>
+				<span style="font-size: 0.8rem;">{{fcnt}}</span>
+				<i class="bi bi-chat-square-dots-fill" ></i>
+				<span style="font-size: 0.8rem;">{{rcnt}}</span>
+			</div>
 		</div>
 	</div>
 	{{/each}}
@@ -37,11 +45,15 @@
 	Handlebars.registerHelper("formatPrice", function(price){
 		return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
 	})
+	Handlebars.registerHelper("heart", function(ucnt){
+		if (ucnt == 1) return "bi-suit-heart-fill";
+		else return "bi-suit-heart";
+	})
 </script>
 <script>
 	let page = 1;
 	let query=$(frm.query).val();
-	
+	const uid="${user.uid}";
 	getTotal();
 	
 	$("#div_goods").on("click", "img", function(){
@@ -96,7 +108,7 @@
 		$.ajax({
 			type:"get",
 			url:"/goods/list.json",
-			data:{page:page, query:query},
+			data:{page:page, query:query, uid:uid},
 			dataType:"json",
 			success:function(data){
 				// console.log(data);

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,11 +43,16 @@ public class UserController extends HttpServlet {
 			break;
 		case "/user/logout":
 			session.removeAttribute("user");
+			Cookie cookie = new Cookie("uid", "");
+			cookie.setPath("/");
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
 			response.sendRedirect("/");
 			break;
 		case "/user/read":
 			UserVO vo = (UserVO) session.getAttribute("user");
-			request.setAttribute("vo", userDAO.read(vo.getUid()));
+			String uid = request.getParameter("uid");
+			request.setAttribute("vo", userDAO.read(uid));
 			request.setAttribute("pageName", "/user/read.jsp");
 			dis.forward(request, response);
 			break;
@@ -85,12 +91,22 @@ public class UserController extends HttpServlet {
 		case "/user/login":
 			String uid = request.getParameter("uid");
 			String upass = request.getParameter("upass");
+			String isLogin = request.getParameter("isLogin");
+			
 			UserVO user = userDAO.read(uid);
+			
 			int result = 0; // 아이디가 없는 경우
 			if(user.getUid() != null) {
 				if(upass.equals(user.getUpass())) {
 					result = 1; // 로그인 성공 
 					session.setAttribute("user", user);
+					if(isLogin.equals("true")) { // 로그인 상태 유지
+						System.out.println("쿠키");
+						Cookie cookie = new Cookie("uid", uid);
+						cookie.setPath("/");
+						cookie.setMaxAge(60*60*24*7); // 기본단위 초
+						response.addCookie(cookie);
+					}
 				} else {
 					result = 2; // 비밀번호 불일치
 				}
